@@ -1,0 +1,205 @@
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "72a2cddc-1c29-48d4-9817-bb3f4b7e9cd5",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b8f69c19-7dd5-46eb-a5f1-3816fcccf5c1",
+              "name": "target_url",
+              "value": "https://n8n.io",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        0
+      ],
+      "id": "2ce27c6c-49c5-48c1-a1b6-ec47de29c407",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/scrape",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "url",
+              "value": "={{ $json.target_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        320,
+        0
+      ],
+      "id": "f25ce672-2386-4fcd-8caf-0dc6d14f0153",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{\n  {\n    \"model\": \"llama-3.3-70b-versatile\",\n    \"messages\": [\n      {\n        \"role\": \"system\",\n        \"content\": \"You are a Senior B2B Solutions Architect. Analyze the provided website text. Extract and output ONLY a pure JSON object with these keys: 'company_niche' (specific industry), 'core_offering' (what they sell), 'assumed_bottleneck' (one critical operational inefficiency they likely face), 'automation_solution' (how n8n/Python can solve that bottleneck), and 'cold_email_draft' (a hyper-personalized 3-sentence email pitching the solution to their Founder/COO).\"\n      },\n      {\n        \"role\": \"user\",\n        \"content\": $json.clean_text\n      }\n    ],\n    \"response_format\": {\"type\": \"json_object\"},\n    \"temperature\": 0.3\n  }\n}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        480,
+        0
+      ],
+      "id": "e547a741-db9a-46f5-b0bc-24ac33fcc992",
+      "name": "HTTP Request1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ddaac7d9-ece5-4268-be02-5fae73028e04",
+              "name": "ai_result",
+              "value": "={{ JSON.parse($json.choices[0].message.content) }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        640,
+        0
+      ],
+      "id": "f6583e92-b76e-4048-a2d1-4607e8b71e65",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_CHAT_ID",
+        "text": "=🚀 *AUTOMATED B2B LEAD INTELLIGENCE* 🚀\n\n🔗 *Target:* {{ $('Edit Fields').item.json.target_url }}\n🏢 *Industry:* {{ $('Edit Fields1').item.json.ai_result.company_niche }}\n📦 *Core Offering:* {{ $('Edit Fields1').item.json.ai_result.core_offering }}\n\n⚠️ *Identified Bottleneck:* {{ $('Edit Fields1').item.json.ai_result.assumed_bottleneck }}\n\n💡 *Proposed Automation (n8n/Python):*\n{{ $('Edit Fields1').item.json.ai_result.automation_solution }}\n\n📧 *Auto-Drafted Outreach Email:*\n{{ $('Edit Fields1').item.json.ai_result.cold_email_draft }}\n\n⚡ *[HUMAN-IN-THE-LOOP]* Review required before sending via CRM webhook.",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        800,
+        0
+      ],
+      "id": "2684f352-8395-4906-b1cb-6639a2714603",
+      "name": "Send a text message",
+      "webhookId": "4922b215-888b-4d8c-b4b3-291871eff34e",
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "2eaf1dc8-c6ee-4ced-a310-781398e156a2",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e269d00c511838a2ab2c31ca0b863a500bc0613f5fd61db1e08abb6d3fc9c67b"
+  },
+  "id": "1mYCwBj-2SixJ4CrWZiuZ",
+  "tags": []
+}
