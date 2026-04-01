@@ -1,0 +1,25 @@
+COMPANY NAME: Elevate Automation Solutions (EAS)
+INDUSTRY: B2B AI & Workflow Automation
+
+OPERATING HOURS:
+Our technical support team is available Monday through Friday, from 9:00 AM to 6:00 PM Eastern Standard Time (EST). We are closed on US federal holidays.
+
+SERVICES OFFERED:
+1. Custom n8n Workflow Development
+2. AI Chatbot Integration (Telegram, WhatsApp, Web)
+3. Automated Data Entry & OCR Pipelines
+4. B2B Lead Enrichment Systems
+
+PRICING & PLANS:
+- Starter Tier: $1,500/month (Includes 2 custom workflows and email support).
+- Enterprise Tier: $4,000/month (Includes unlimited workflows, dedicated Slack channel, and 24/7 critical server monitoring).
+- We do not offer one-off projects. All services are on a monthly retainer basis.
+
+REFUND POLICY:
+We offer a 14-day money-back guarantee for the first month of any retainer if the client is not satisfied with the initial onboarding phase. After 14 days, no refunds are issued.
+
+PAYMENT METHODS:
+We accept Stripe (Credit Cards) and direct Wire Transfers. We DO NOT accept PayPal or Cryptocurrency.
+
+CONTACT:
+For issues outside the scope of this bot, please email human-support@elevateautomation.com.
