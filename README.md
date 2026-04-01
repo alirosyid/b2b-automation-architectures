@@ -49,6 +49,22 @@ A context-aware Retrieval-Augmented Generation (RAG) agent deployed via Telegram
 * **Business Impact:** * Automates 80% of Tier-1 customer support tickets instantly.
   * Zero hallucination risk (strict AI grounding to company documentation).
   * Available 24/7, reducing average human response time from hours to seconds.
+
+---
+
+## 🏗️ Architecture 4: Omnichannel Content Repurposing Engine
+*(Located in `/n8n-workflows` & `/python-scripts`)*
+
+### 🔴 The Problem
+Marketing agencies and content creators struggle with the "content treadmill." Turning a single podcast episode or YouTube video into SEO blogs, Twitter threads, and LinkedIn posts requires hours of manual copywriting, creating a massive bottleneck and high operational costs.
+
+### 🟢 The AI Solution
+A hybrid Python + n8n automation pipeline that acts as an autonomous marketing team. It ingests raw video transcripts and uses Google Gemini 2.5 Flash with strict zero-shot prompting to instantly restructure the text into three distinct formats: an HTML-ready SEO Blog, an engaging Twitter Thread, and a professional LinkedIn hook.
+
+* **Tech Stack:** n8n (Orchestration), FastAPI (Microservice), Google Gemini API.
+* **Business Impact:** * Reduces content repurposing time from 4 hours to **under 5 seconds**.
+  * Enforces strict formatting (JSON output) for direct CMS injection.
+  * Eliminates the need for junior copywriters for content translation across platforms.
   
 ---
 
