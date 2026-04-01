@@ -1,0 +1,100 @@
+{
+  "name": "My workflow 3",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c331c6b3-7454-4d34-a872-53a8fba2600c",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9554dd77-f919-4b5c-b973-3917da83fa8d",
+              "name": "transcript",
+              "value": "Futbol Club Barcelona is a professional association football club based in Barcelona, Catalonia, Spain. The club was founded in 1899 by a group of Swiss, English and Spanish men led by Joan Gamper. Barcelona is one of only three clubs to have never been relegated from La Liga[1] and the most successful club in Spanish football, having won a total of 79 domestic titles: 27 La Liga titles, a record 32 Spanish Cups, a record two League Cups, a record 15 Spanish Super Cups and a record three Copas Eva Duarte. Barcelona is the only European side to have played continental football in every season since its inception in 1955 and one of the most successful clubs in European football, having won 22 official UEFA and FIFA trophies in total.[2]  Aside from being the founder, Gamper was also one of the club's first footballers and holds the record for most goals in a single match, with nine.[3] Lionel Messi holds the record for the most number of appearances in official matches with 778, is the all-time top scorer with 700+ goals, all-time top scorer in official competitions, with 672, is the current La Liga top scorer with 474 goals and holds the record for the most appearances in La Liga, with 520 matches. Messi also won the record number of trophies with the club (35).  Barcelona has employed several famous players, with five FIFA World Player of the Year winners and six Ballon d'Or winners among the previous and current Barcelona players. This makes Barça the club with the most FIFA World Player awards received by the players. In 2009, Barcelona achieved an unprecedented sextuple by winning La Liga, the Copa del Rey, the UEFA Champions League, the Supercopa de España, the UEFA Super Cup and the FIFA Club World Cup in one calendar year.[4] The same year, five of their players and their coach were voted onto the UEFA Team of the Year.[5]  The list includes notable footballers who have played for Barcelona. Generally, this means players that have played at least 100 league matches for the club. However, some players who have played fewer matches are also included if they are on Barcelona's list of legends. Between 1899 and May 2015, 958 footballers have played at least one official game with Barcelona.[6]",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        0
+      ],
+      "id": "deab4d2e-a2ed-430b-bbd1-7dd9c604ceba",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/repurpose",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "transcript",
+              "value": "={{ $json.transcript }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        320,
+        0
+      ],
+      "id": "c189fa53-dcfb-4d53-8c0f-d90db3e54ab0",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "d3d37870-880e-4cd9-a4f9-8229417b015c",
+  "meta": {
+    "instanceId": "e269d00c511838a2ab2c31ca0b863a500bc0613f5fd61db1e08abb6d3fc9c67b"
+  },
+  "id": "QpymImq6f9feOm0dx_cg4",
+  "tags": []
+}
