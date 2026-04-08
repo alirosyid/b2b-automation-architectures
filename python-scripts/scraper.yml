@@ -1,0 +1,36 @@
+name: Job Sniper Crawler
+
+on:
+  schedule:
+    # Menjadwalkan script agar berjalan otomatis setiap 2 jam
+    - cron: '0 */2 * * *'
+  # Enable manual run di Actions tab Github
+  workflow_dispatch:
+
+jobs:
+  run-crawler:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Scraper
+        env:
+          # Service account JSON dimuat dari GitHub Secrets
+          # Cara set: pergi ke Settings repo > Secrets and variables > Actions > New repository secret
+          # Isi Name dengan GCP_SERVICE_ACCOUNT , dan Secret dengan raw JSON content GCP.
+          GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+        run: |
+          python scraper.py
