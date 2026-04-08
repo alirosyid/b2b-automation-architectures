@@ -23,14 +23,13 @@ jobs:
 
       - name: Install dependencies
         run: |
+          cd python-scripts
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Run Scraper
         env:
-          # Service account JSON dimuat dari GitHub Secrets
-          # Cara set: pergi ke Settings repo > Secrets and variables > Actions > New repository secret
-          # Isi Name dengan GCP_SERVICE_ACCOUNT , dan Secret dengan raw JSON content GCP.
           GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
         run: |
+          cd python-scripts
           python scraper.py
