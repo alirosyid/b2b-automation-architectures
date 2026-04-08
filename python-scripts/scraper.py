@@ -20,7 +20,7 @@ RSS_FEEDS = {
 }
 
 KEYWORDS = ['python', 'n8n', 'ai', 'automation', 'make', 'api']
-TIME_LIMIT_HOURS = 4
+TIME_LIMIT_HOURS = 168
 
 def setup_google_sheets():
     # Mengambil kredensial dari environment variable
