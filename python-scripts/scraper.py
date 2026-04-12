@@ -19,7 +19,7 @@ RSS_FEEDS = {
     "WorkingNomads": "https://www.workingnomads.com/jobs/feed"
 }
 
-KEYWORDS = ['n8n', 'workflow automation', 'ai automation', 'make.com', 'zapier', 'chatbot', 'llm integration', 'openai api', 'process automation']
+KEYWORDS = ['n8n', 'workflow automation', 'ai automation', 'make.com', 'zapier', 'chatbot', 'llm integration', 'openai api', 'process automation', 'rag', 'langchain', 'ai agent', 'content automation', 'business automation', 'api integration']
 TIME_LIMIT_HOURS = 4
 
 def setup_google_sheets():
