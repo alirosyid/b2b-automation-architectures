@@ -16,7 +16,11 @@ RSS_FEEDS = {
     "Upwork": "https://www.upwork.com/ab/feed/jobs/rss?q=python+OR+ai+OR+automation",
     "RemoteOK": "https://remoteok.com/remote-dev-jobs.rss",
     "Remotive": "https://remotive.com/remote-jobs/feed",
-    "WorkingNomads": "https://www.workingnomads.com/jobs/feed"
+    "WorkingNomads": "https://www.workingnomads.com/jobs/feed",
+    "Jobspresso": "https://jobspresso.co/remote-software-jobs/feed/",
+    "DailyRemote": "https://dailyremote.com/remote-jobs.rss",
+    "Himalayas": "https://himalayas.app/jobs/rss",
+    "RemoteGlobal": "https://remoteglobal.com/jobs/feed/"
 }
 
 KEYWORDS = ['n8n', 'workflow automation', 'ai automation', 'make.com', 'zapier', 'chatbot', 'llm integration', 'openai api', 'process automation', 'rag', 'langchain', 'ai agent', 'content automation', 'business automation', 'api integration']
