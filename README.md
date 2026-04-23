@@ -68,6 +68,12 @@ A hybrid Python + n8n automation pipeline that acts as an autonomous marketing t
   
 ---
 
+## Workflow Demonstrations
+
+- **B2B Automated Outreach Pipeline**: [View Technical Demonstration (Loom)](https://www.loom.com/share/d005a1c870c44caaa44221b80e929d4d) - *End-to-end execution of prospect data extraction, dynamic email personalization via Groq (Llama-3), and multi-channel dispatch (Gmail/Telegram) orchestrated in n8n.*
+
+---
+
 ## 🛠️ How to Deploy (For Developers)
 
 **1. n8n Workflows**
