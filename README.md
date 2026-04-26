@@ -5,6 +5,16 @@ This repository contains high-impact workflows designed to eliminate manual bott
 
 ---
 
+## 📑 Table of Contents
+- [Architecture 1: AI-Powered OCR & Invoice Data Extraction](#️-architecture-1-ai-powered-ocr--invoice-data-extraction)
+- [Architecture 2: B2B Lead Enrichment Pipeline](#️-architecture-2-b2b-lead-enrichment-pipeline)
+- [Architecture 3: Enterprise RAG Customer Support Agent](#️-architecture-3-enterprise-rag-customer-support-agent)
+- [Architecture 4: Omnichannel Content Repurposing Engine](#️-architecture-4-omnichannel-content-repurposing-engine)
+- [Workflow Demonstrations](#workflow-demonstrations)
+- [How to Deploy (For Developers)](#️-how-to-deploy-for-developers)
+
+---
+
 ## 🏗️ Architecture 1: AI-Powered OCR & Invoice Data Extraction
 *(Located in `/n8n-workflows` & `/python-scripts`)*
 
