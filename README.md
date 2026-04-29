@@ -62,19 +62,23 @@ A context-aware Retrieval-Augmented Generation (RAG) agent deployed via Telegram
 
 ---
 
-## 🏗️ Architecture 4: Omnichannel Content Repurposing Engine
-*(Located in `/n8n-workflows` & `/python-scripts`)*
+## 🏗️ Architecture 4: Enterprise Content Repurposing Engine (Deep Context)
+*(Located in `/n8n-workflows` & `/python-scripts/content_engine_api2.py`)*
 
 ### 🔴 The Problem
-Marketing agencies and content creators struggle with the "content treadmill." Turning a single podcast episode or YouTube video into SEO blogs, Twitter threads, and LinkedIn posts requires hours of manual copywriting, creating a massive bottleneck and high operational costs.
+Marketing agencies struggle with the "content treadmill." Turning a deep, unstructured B2B podcast (2,500+ words of raw transcript) into multi-channel assets requires hours of manual copywriting. Existing SaaS tools lack strategic depth, hallucinate facts, and offer no customizable brand-voice architecture for white-labeling.
 
 ### 🟢 The AI Solution
-A hybrid Python + n8n automation pipeline that acts as an autonomous marketing team. It ingests raw video transcripts and uses Google Gemini 2.5 Flash with strict zero-shot prompting to instantly restructure the text into three distinct formats: an HTML-ready SEO Blog, an engaging Twitter Thread, and a professional LinkedIn hook.
+A decoupled microservice architecture designed for enterprise agency deployment. It ingests raw, unformatted audio transcripts, chunks the tokens, and processes them through an ultra-low latency LLM inference engine to output a strict 11-point JSON asset array.
 
-* **Tech Stack:** n8n (Orchestration), FastAPI (Microservice), Google Gemini API.
-* **Business Impact:** * Reduces content repurposing time from 4 hours to **under 5 seconds**.
-  * Enforces strict formatting (JSON output) for direct CMS injection.
-  * Eliminates the need for junior copywriters for content translation across platforms.
+* **Tech Stack:** n8n (Stateless Orchestration), Python/FastAPI (Intelligence Core), Groq API / Llama 3 70B (LLM Engine).
+* **Key Technical Features:**
+  * **API Modularity:** Built to support multimodal processing (Gemini), but dynamically routed through Groq (Llama 3) for high-speed, text-heavy B2B inference.
+  * **6-Component Prompt Framework:** Forces the LLM into a strict persona at `Temperature 0.1` to extract only high-value B2B signals, bypassing conversational filler and hallucinations.
+  * **JSON Schema Enforcement:** Utilizes strict `json_object` formatting to guarantee parsable outputs for downstream CRM/CMS integrations.
+* **Business Impact:** 
+  * Reduces deep-context content repurposing from 4 hours to ~3.5 seconds.
+  * Extracted assets include SEO Pillar Blogs, X Threads, LinkedIn Hooks, Newsletters, and Video Concepts.
   
 ---
 
@@ -90,11 +94,14 @@ A hybrid Python + n8n automation pipeline that acts as an autonomous marketing t
 * Open your n8n instance.
 * Go to the workflows interface, click `Import from File`, and select the `.json` files from the `/n8n-workflows` directory.
 
-**2. Custom Python Microservices (e.g., Gemini OCR)**
+**2. Custom Python Microservices (Gemini Vision & Groq Content Engine)**
 * Navigate to the `/python-scripts` directory.
-* Install dependencies: `pip install fastapi uvicorn google-generativeai python-dotenv pillow`
-* Create a `.env` file and add your credentials: `GEMINI_API_KEY=your_key_here`
-* Run the server: `uvicorn gemini_vision_ocr_api:app --host 0.0.0.0 --port 8000 --reload`
+* Install dependencies: `pip install fastapi uvicorn google-generativeai groq python-dotenv pillow`
+* Create a `.env` file and add your credentials: 
+  * `GEMINI_API_KEY=your_key_here`
+  * `GROQ_API_KEY=your_key_here`
+* **To run the Deep Context Content Engine:** `uvicorn content_engine_api2:app --host 0.0.0.0 --port 8000 --reload`
+* **To run the Vision OCR Engine:** `uvicorn gemini_vision_ocr_api:app --host 0.0.0.0 --port 8000 --reload`
 
 ---
 *Architected by Ali Rosyid.*
