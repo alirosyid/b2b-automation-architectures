@@ -12,11 +12,9 @@ import re
 # --- URL RSS Feeds Dictionary ---
 RSS_FEEDS = {
     "WeWorkRemotely": "https://weworkremotely.com/remote-jobs.rss",
-    "Remote.co": "https://remote.co/remote-jobs/it/rss",
     "Upwork": "https://www.upwork.com/ab/feed/jobs/rss?q=python+OR+ai+OR+automation",
     "RemoteOK": "https://remoteok.com/remote-dev-jobs.rss",
     "Remotive": "https://remotive.com/remote-jobs/feed",
-    "WorkingNomads": "https://www.workingnomads.com/jobs/feed",
     "Jobspresso": "https://jobspresso.co/remote-software-jobs/feed/",
     "DailyRemote": "https://dailyremote.com/remote-jobs.rss",
     "Remote.co": "https://remote.co/remote-jobs/developer/feed/",
