@@ -19,6 +19,8 @@ RSS_FEEDS = {
     "WorkingNomads": "https://www.workingnomads.com/jobs/feed",
     "Jobspresso": "https://jobspresso.co/remote-software-jobs/feed/",
     "DailyRemote": "https://dailyremote.com/remote-jobs.rss",
+    "Remote.co": "https://remote.co/remote-jobs/developer/feed/",
+    "Working Nomads": "https://www.workingnomads.com/jobs/feed/development",
     "Himalayas": "https://himalayas.app/jobs/rss",
     "RemoteGlobal": "https://remoteglobal.com/jobs/feed/"
 }
