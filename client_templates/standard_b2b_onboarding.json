@@ -1,0 +1,16 @@
+{
+    "client_id": "CLIENT_NAME_PLACEHOLDER",
+    "deployment_tier": "enterprise",
+    "features_enabled": {
+      "telegram_alerts": true,
+      "ocr_processing": true,
+      "daily_roi_reports": true
+    },
+    "api_rate_limits": {
+      "max_requests_per_minute": 60,
+      "monthly_budget_usd": 500.00
+    },
+    "target_webhook_urls": {
+      "crm_ingest": "https://client-crm.com/api/webhook"
+    }
+  }
