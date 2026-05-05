@@ -27,7 +27,7 @@ KEYWORDS = ['n8n', 'workflow automation', 'ai automation', 'make.com', 'zapier',
 
 # --- TAMBAHAN BLACKLIST UNTUK MEMBLOKIR DATA SAMPAH SEJAK AWAL ---
 BLACKLIST = [
-    'support', 'customer', 'marketing', 'sales', 'designer', 
+    'support', 'customer', 'marketing', 'sales', 'accounting', 'designer', 
     'copywriter', 'media', 'counsel', 'account executive', 
     'devops', 'hr', 'recruiter', 'writer', 'finance', 'product manager'
 ]
