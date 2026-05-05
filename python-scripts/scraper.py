@@ -24,6 +24,14 @@ RSS_FEEDS = {
 }
 
 KEYWORDS = ['n8n', 'workflow automation', 'ai automation', 'make.com', 'zapier', 'chatbot', 'llm integration', 'openai api', 'process automation', 'rag', 'langchain', 'ai agent', 'content automation', 'business automation', 'api integration']
+
+# --- TAMBAHAN BLACKLIST UNTUK MEMBLOKIR DATA SAMPAH SEJAK AWAL ---
+BLACKLIST = [
+    'support', 'customer', 'marketing', 'sales', 'designer', 
+    'copywriter', 'media', 'counsel', 'account executive', 
+    'devops', 'hr', 'recruiter', 'writer', 'finance', 'product manager'
+]
+
 TIME_LIMIT_HOURS = 4
 
 def setup_google_sheets():
@@ -46,7 +54,6 @@ def setup_google_sheets():
     
     # Buka Spreadsheet
     # Pastikan untuk mengganti "Data Job Sniper" dengan nama atau ID file Google Sheets yang sebenarnya
-    # Service account email harus sudah diundang (Share) sebagai Editor di file tersebut
     sheet = client.open("Data Job Sniper").sheet1
     return sheet
 
@@ -123,6 +130,13 @@ def main():
                     continue
                 
                 title = entry.get('title', '')
+                
+                # --- FILTER BLACKLIST AKTIF DI SINI ---
+                title_lower = title.lower()
+                is_blacklisted = any(bad_word in title_lower for bad_word in BLACKLIST)
+                if is_blacklisted:
+                    continue # Langsung buang jika judul mengandung kata terlarang, menghemat kuota Groq
+                
                 # Filter beberapa feed menyertakan summary, atau description
                 description = entry.get('description', entry.get('summary', ''))
                 
