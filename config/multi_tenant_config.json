@@ -1,0 +1,20 @@
+{
+  "system_mode": "multi_tenant",
+  "global_rate_limits": {
+    "requests_per_second_per_client": 10
+  },
+  "active_tenants": [
+    {
+      "tenant_id": "org_77xyz",
+      "name": "Acme Corp",
+      "features": ["ocr", "rag", "telegram_alerts"],
+      "llm_preference": "groq_llama3"
+    },
+    {
+      "tenant_id": "org_88abc",
+      "name": "Globex Inc",
+      "features": ["rag"],
+      "llm_preference": "gemini_flash"
+    }
+  ]
+}
