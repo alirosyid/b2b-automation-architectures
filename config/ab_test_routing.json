@@ -1,0 +1,20 @@
+{
+  "active_experiments": {
+    "experiment_id": "outreach_campaign_q2",
+    "metric": "reply_rate",
+    "routes": [
+      {
+        "variant": "A",
+        "description": "Standard Llama-3 Personalization",
+        "traffic_allocation_percent": 70,
+        "target_n8n_webhook": "https://n8n.client.com/webhook/variant-a"
+      },
+      {
+        "variant": "B",
+        "description": "Aggressive Gemini Flash Summary",
+        "traffic_allocation_percent": 30,
+        "target_n8n_webhook": "https://n8n.client.com/webhook/variant-b"
+      }
+    ]
+  }
+}
