@@ -1,0 +1,23 @@
+name: GitOps Client Provisioning
+
+on:
+  workflow_dispatch:
+    inputs:
+      client_name:
+        description: 'Name of the new B2B client'
+        required: true
+
+jobs:
+  provision:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Scaffold Client Directory
+        run: |
+          CLIENT_DIR="clients/${{ github.event.inputs.client_name }}"
+          mkdir -p $CLIENT_DIR/configs
+          mkdir -p $CLIENT_DIR/logs
+          echo "{ \"tier\": \"enterprise\", \"status\": \"active\" }" > $CLIENT_DIR/configs/settings.json
+          echo "✅ Provisioned infrastructure for ${{ github.event.inputs.client_name }}"
