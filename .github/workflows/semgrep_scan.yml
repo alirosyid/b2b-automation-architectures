@@ -1,0 +1,17 @@
+name: Semgrep Security Audit
+
+on:
+  workflow_dispatch:
+
+jobs:
+  semgrep:
+    name: Run Semantic Grep
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: returntocorp/semgrep-action@v1
+        with:
+          config: >-
+            p/python
+            p/security-audit
+            p/owasp-top-ten
