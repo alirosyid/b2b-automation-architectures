@@ -32,6 +32,9 @@ BLACKLIST = [
     'devops', 'hr', 'recruiter', 'writer', 'finance', 'product manager'
 ]
 
+# KOMPILASI REGEX DI LUAR LOOP UNTUK PERFORMA MAKSIMAL (Mencegah salah blokir potongan kata)
+BLACKLIST_PATTERN = re.compile(r'\b(?:' + '|'.join(BLACKLIST) + r')\b', re.IGNORECASE)
+
 TIME_LIMIT_HOURS = 4
 
 def setup_google_sheets():
@@ -131,11 +134,10 @@ def main():
                 
                 title = entry.get('title', '')
                 
-                # --- FILTER BLACKLIST AKTIF DI SINI ---
-                title_lower = title.lower()
-                is_blacklisted = any(bad_word in title_lower for bad_word in BLACKLIST)
-                if is_blacklisted:
-                    continue # Langsung buang jika judul mengandung kata terlarang, menghemat kuota Groq
+                # --- FILTER BLACKLIST (REGEX WORD BOUNDARY) ---
+                if BLACKLIST_PATTERN.search(title):
+                    print(f"   [BLOCKED] Judul masuk daftar hitam: {title}")
+                    continue 
                 
                 # Filter beberapa feed menyertakan summary, atau description
                 description = entry.get('description', entry.get('summary', ''))
