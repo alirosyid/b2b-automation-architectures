@@ -1,107 +1,78 @@
-# ⚡ Enterprise B2B Automation Architectures
+# ⚡ Enterprise B2B AI Automation Gateway & Architectures
 
 Welcome to my portfolio of production-ready automation pipelines and AI agents. 
-This repository contains high-impact workflows designed to eliminate manual bottlenecks, reduce operational costs, and scale B2B operations using n8n, Python, and Large Language Models (LLMs).
+By separating the orchestration layer (n8n) from the cognitive layer (FastAPI + LLMs), this repository contains high-impact workflows designed to eliminate manual bottlenecks, bypass platform execution limits, and scale B2B operations.
 
 ---
 
-## 📑 Table of Contents
-- [Architecture 1: AI-Powered OCR & Invoice Data Extraction](#️-architecture-1-ai-powered-ocr--invoice-data-extraction)
-- [Architecture 2: B2B Lead Enrichment Pipeline](#️-architecture-2-b2b-lead-enrichment-pipeline)
-- [Architecture 3: Enterprise RAG Customer Support Agent](#️-architecture-3-enterprise-rag-customer-support-agent)
-- [Architecture 4: Omnichannel Content Repurposing Engine](#️-architecture-4-omnichannel-content-repurposing-engine)
-- [Workflow Demonstrations](#workflow-demonstrations)
-- [How to Deploy (For Developers)](#️-how-to-deploy-for-developers)
+## 🧠 Core Architecture: The AI Gateway (Frame Control)
+Instead of running multiple heavy scripts, this architecture utilizes a single unified FastAPI Gateway (`main.py`) to handle diverse AI cognitive loads as microservices.
 
----
+```mermaid
+graph TD
+    %% Styling
+    classDef client fill:#f9f9f9,stroke:#333,stroke-width:2px;
+    classDef orchestrator fill:#ff9900,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef gateway fill:#2b5e82,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef ai fill:#10a37f,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef output fill:#0088cc,stroke:#fff,stroke-width:2px,color:#fff;
 
-## 🏗️ Architecture 1: AI-Powered OCR & Invoice Data Extraction
-*(Located in `/n8n-workflows` & `/python-scripts`)*
+    A[Incoming Trigger <br/> 📧 Email / 📊 Sheets / 📄 PDF]:::client -->|Raw Data| B{n8n Orchestrator}:::orchestrator
+    
+    B -->|HTTP POST JSON| C[FastAPI Gateway <br/> Port: 8000]:::gateway
+    
+    subgraph Cognitive Layer [Python Microservices: main.py]
+        C -->|/enrich| D(Lead Enrichment Engine):::gateway
+        C -->|/generate_reply| E(RAG Contextual Bot):::gateway
+        C -->|/ocr_invoice| H(Gemini Vision Engine):::gateway
+    end
+    
+    D -->|Strict JSON Prompt| F((Groq LLaMA-3.3)):::ai
+    E -->|Read knowledge_base.txt| F
+    H -->|Vision Parsing| I((Gemini 2.5 Flash)):::ai
+    
+    F -->|Validated JSON Response| C
+    I -->|Validated JSON Response| C
+    
+    C -->|Return Payload| B
+    
+    B -->|Async Dispatch| G[Target Output <br/> 📱 Telegram / 📧 Resend / 🗄️ CRM]:::output
 
-### 🔴 The Problem
-Finance and accounting teams waste hundreds of hours manually typing data from physical invoices and receipts into spreadsheets. This process is slow, expensive, and highly prone to human error.
+📑 Portfolio Use Cases
+🏗️ 1. Automating B2B Lead Enrichment (The Sniper)
+The Problem: Sales teams waste 60% of their day manually researching prospect bottlenecks before cold emailing.
+The AI Solution: Feed a basic list of company domains, and the n8n pipeline automatically scrapes the websites. The main.py Gateway (/enrich endpoint) forces LLaMA-3 to identify exactly 3 critical business bottlenecks, outputting pure JSON for highly personalized outreach at scale.
 
-### 🟢 The AI Solution
-A fully automated visual extraction pipeline. It receives physical invoice images/PDFs, processes them through a custom FastAPI endpoint, and leverages Google's **Gemini 2.5 Flash** vision model to extract perfect, structured JSON data (Vendor Name, Dates, Line Items, Totals).
+🏗️ 2. Enterprise RAG Customer Support (The Defender)
+The Problem: Support agents answer repetitive technical queries, while traditional AI chatbots hallucinate facts and frustrate enterprise clients.
+The AI Solution: A context-aware RAG agent that intercepts incoming client emails. The Gateway (/generate_reply endpoint) queries the local knowledge_base.txt and drafts a highly authoritative, Senior Architect-level reply for the CTO within seconds, sending the draft directly to Telegram for review.
 
-* **Tech Stack:** n8n (Orchestration), Python/FastAPI (Microservice), Google Gemini 2.5 Flash (Vision AI).
-* **Business Impact:** * Reduces invoice processing time from minutes to **under 3 seconds** per document.
-  * Achieves 99% accuracy in data extraction.
-  * Completely eliminates the need for manual data entry clerks for accounts payable.
+🏗️ 3. AI-Powered OCR & Invoice Data Extraction
+The Problem: Finance teams waste hundreds of hours manually typing physical invoices into spreadsheets, leading to human error.
+The AI Solution: A visual extraction pipeline receiving physical invoice PDFs. It routes through the Gateway to Google's Gemini 2.5 Flash vision model, extracting perfect JSON data (Vendor, Line Items, Totals) in under 3 seconds with 99% accuracy.
 
----
+🎥 Workflow Demonstrations
+B2B Automated Outreach Pipeline: View Technical Demonstration (Loom) - End-to-end execution of data extraction and dynamic personalization via Groq, orchestrated in n8n.
 
-## 🏗️ Architecture 2: B2B Lead Enrichment Pipeline
-*(Located in `/n8n-workflows/b2b_lead_enrichment_pipeline.json`)*
+🛠️ How to Deploy (For Developers)
+1. Run the Unified Cognitive Gateway (FastAPI)
 
-### 🔴 The Problem
-Sales teams spend 60% of their day manually researching prospects on LinkedIn or company websites before sending cold emails, leading to low outreach volume and burnout.
+Navigate to the project directory containing main.py.
 
-### 🟢 The AI Solution
-An automated lead enrichment engine. Feed it a basic list of company domains, and the pipeline automatically scrapes the websites, extracts key company data, identifies the value proposition, and drafts highly personalized cold outreach emails using AI.
+Install dependencies: pip install fastapi uvicorn google-generativeai groq python-dotenv pydantic requests
 
-* **Tech Stack:** n8n, Web Scraping Nodes, LLM APIs.
-* **Business Impact:** * Increases outbound sales volume by 10x without sacrificing personalization quality.
-  * Saves SDRs (Sales Development Reps) 20+ hours per week in manual research.
+Create a .env file and add your credentials (GROQ_API_KEY, GEMINI_API_KEY).
 
----
+Launch the Monolithic Server:
 
-## 🏗️ Architecture 3: Enterprise RAG Customer Support Agent
-*(Located in `/python-scripts/telegram_rag_bot.py`)*
+Bash
+uvicorn main:app --port 8000
+2. n8n Orchestration
 
-### 🔴 The Problem
-B2B SaaS companies spend heavily on Tier-1 support agents answering the same repetitive questions about pricing, operating hours, and refund policies. Traditional chatbots often hallucinate facts or frustrate users with rigid, robotic menus.
+Import the workflows from the /n8n-workflows directory.
 
-### 🟢 The AI Solution
-A context-aware Retrieval-Augmented Generation (RAG) agent deployed via Telegram. Powered by Google Gemini 2.5 Flash, the bot dynamically reads from a strict internal company knowledge base. It answers valid queries instantly with a perfect professional tone and safely deflects out-of-scope questions to human agents without hallucinating.
+Ensure HTTP Request nodes are pointing to http://localhost:8000/[endpoint].
 
-* **Tech Stack:** Python, python-telegram-bot, Google Gemini API, RAG Architecture.
-* **Business Impact:** * Automates 80% of Tier-1 customer support tickets instantly.
-  * Zero hallucination risk (strict AI grounding to company documentation).
-  * Available 24/7, reducing average human response time from hours to seconds.
+Activate the workflows.
 
----
-
-## 🏗️ Architecture 4: Enterprise Content Repurposing Engine (Deep Context)
-*(Located in `/n8n-workflows` & `/python-scripts/content_engine_api2.py`)*
-
-### 🔴 The Problem
-Marketing agencies struggle with the "content treadmill." Turning a deep, unstructured B2B podcast (2,500+ words of raw transcript) into multi-channel assets requires hours of manual copywriting. Existing SaaS tools lack strategic depth, hallucinate facts, and offer no customizable brand-voice architecture for white-labeling.
-
-### 🟢 The AI Solution
-A decoupled microservice architecture designed for enterprise agency deployment. It ingests raw, unformatted audio transcripts, chunks the tokens, and processes them through an ultra-low latency LLM inference engine to output a strict 11-point JSON asset array.
-
-* **Tech Stack:** n8n (Stateless Orchestration), Python/FastAPI (Intelligence Core), Groq API / Llama 3 70B (LLM Engine).
-* **Key Technical Features:**
-  * **API Modularity:** Built to support multimodal processing (Gemini), but dynamically routed through Groq (Llama 3) for high-speed, text-heavy B2B inference.
-  * **6-Component Prompt Framework:** Forces the LLM into a strict persona at `Temperature 0.1` to extract only high-value B2B signals, bypassing conversational filler and hallucinations.
-  * **JSON Schema Enforcement:** Utilizes strict `json_object` formatting to guarantee parsable outputs for downstream CRM/CMS integrations.
-* **Business Impact:** 
-  * Reduces deep-context content repurposing from 4 hours to ~3.5 seconds.
-  * Extracted assets include SEO Pillar Blogs, X Threads, LinkedIn Hooks, Newsletters, and Video Concepts.
-  
----
-
-## Workflow Demonstrations
-
-- **B2B Automated Outreach Pipeline**: [View Technical Demonstration (Loom)](https://www.loom.com/share/d005a1c870c44caaa44221b80e929d4d) - *End-to-end execution of prospect data extraction, dynamic email personalization via Groq (Llama-3), and multi-channel dispatch (Gmail/Telegram) orchestrated in n8n.*
-
----
-
-## 🛠️ How to Deploy (For Developers)
-
-**1. n8n Workflows**
-* Open your n8n instance.
-* Go to the workflows interface, click `Import from File`, and select the `.json` files from the `/n8n-workflows` directory.
-
-**2. Custom Python Microservices (Gemini Vision & Groq Content Engine)**
-* Navigate to the `/python-scripts` directory.
-* Install dependencies: `pip install fastapi uvicorn google-generativeai groq python-dotenv pillow`
-* Create a `.env` file and add your credentials: 
-  * `GEMINI_API_KEY=your_key_here`
-  * `GROQ_API_KEY=your_key_here`
-* **To run the Deep Context Content Engine:** `uvicorn content_engine_api2:app --host 0.0.0.0 --port 8000 --reload`
-* **To run the Vision OCR Engine:** `uvicorn gemini_vision_ocr_api:app --host 0.0.0.0 --port 8000 --reload`
-
----
-*Architected by Ali Rosyid.*
+Architected by Ali Rosyid.
