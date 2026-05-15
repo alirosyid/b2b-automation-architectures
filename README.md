@@ -37,7 +37,7 @@ graph TD
     C -->|Return Payload| B
     
     B -->|Async Dispatch| G[Target Output <br/> 📱 Telegram / 📧 Resend / 🗄️ CRM]:::output
-
+```
 📑 Portfolio Use Cases
 🏗️ 1. Automating B2B Lead Enrichment (The Sniper)
 The Problem: Sales teams waste 60% of their day manually researching prospect bottlenecks before cold emailing.
