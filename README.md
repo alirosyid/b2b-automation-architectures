@@ -39,6 +39,7 @@ graph TD
     B -->|Async Dispatch| G[Target Output <br/> 📱 Telegram / 📧 Resend / 🗄️ CRM]:::output
 ```
 📑 Portfolio Use Cases
+
 🏗️ 1. Automating B2B Lead Enrichment (The Sniper)
 The Problem: Sales teams waste 60% of their day manually researching prospect bottlenecks before cold emailing.
 The AI Solution: Feed a basic list of company domains, and the n8n pipeline automatically scrapes the websites. The main.py Gateway (/enrich endpoint) forces LLaMA-3 to identify exactly 3 critical business bottlenecks, outputting pure JSON for highly personalized outreach at scale.
