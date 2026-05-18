@@ -4,16 +4,16 @@ import json
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from dotenv import load_dotenv
+import google.generativeai as genai
 
-# Inisialisasi Environment & Aplikasi Utama (Hanya perlu dipanggil sekali)
+# Inisialisasi Environment & Aplikasi Utama
 load_dotenv()
-app = FastAPI(title="Ali Rosyid - B2B AI Gateway")
+app = FastAPI(title="Ali Rosyid - Enterprise B2B AI Gateway")
 
 # =====================================================================
-# LOKET 1: THE LEAD ENRICHMENT (Digunakan oleh Scraper untuk menilai target)
-# Target URL di n8n: http://localhost:8000/enrich
+# LOKET 1: THE SNIPER (B2B Lead Enrichment)
+# Endpoint: POST http://localhost:8000/enrich
 # =====================================================================
-
 class Payload(BaseModel):
     company_data: str
 
@@ -59,18 +59,10 @@ class LeadArchitect:
         response = requests.post(self.base_url, json=payload, headers=headers)
         
         if response.status_code != 200:
-            print("===========================")
-            print("GROQ REJECTED YOUR REQUEST!")
-            print(f"Status Code: {response.status_code}")
-            print(f"Reason: {response.text}")
-            print("===========================")
             return {"error": response.text}
             
-        raw_content = response.json()['choices'][0]['message']['content']
-        
         try:
-            clean_json = json.loads(raw_content)
-            return clean_json
+            return json.loads(response.json()['choices'][0]['message']['content'])
         except Exception as e:
             return {"error": f"Failed to parse JSON from AI. Error: {str(e)}"}
 
@@ -78,18 +70,14 @@ class LeadArchitect:
 async def enrich_endpoint(payload: Payload):
     architect = LeadArchitect()
     result = architect.enrich_data(payload.company_data)
-    
     if "error" in result:
         raise HTTPException(status_code=400, detail=result["error"])
-        
     return {"status": "success", "ai_analysis": result}
 
-
 # =====================================================================
-# LOKET 2: THE RAG BOT (Digunakan untuk membalas email klien otomatis)
-# Target URL di n8n: http://localhost:8000/generate_reply
+# LOKET 2: THE DEFENDER (Enterprise RAG Customer Support)
+# Endpoint: POST http://localhost:8000/generate_reply
 # =====================================================================
-
 class IncomingEmail(BaseModel):
     sender_email: str
     email_body: str
@@ -138,20 +126,14 @@ class RAGArchitect:
             "temperature": 0.2
         }
         
-        headers = {
-            "Authorization": f"Bearer {self.groq_key}",
-            "Content-Type": "application/json"
-        }
-        
+        headers = {"Authorization": f"Bearer {self.groq_key}", "Content-Type": "application/json"}
         response = requests.post(self.base_url, json=payload, headers=headers)
         
         if response.status_code != 200:
             return {"error": response.text}
             
         try:
-            raw_content = response.json()['choices'][0]['message']['content']
-            clean_json = json.loads(raw_content)
-            return clean_json
+            return json.loads(response.json()['choices'][0]['message']['content'])
         except Exception as e:
             return {"error": f"Failed to parse AI JSON. Error: {str(e)}"}
 
@@ -159,8 +141,49 @@ class RAGArchitect:
 async def generate_reply_endpoint(payload: IncomingEmail):
     architect = RAGArchitect()
     result = architect.draft_reply(payload.sender_email, payload.email_body)
-    
     if "error" in result:
         raise HTTPException(status_code=400, detail=result["error"])
-        
     return {"status": "success", "data": result}
+
+# =====================================================================
+# LOKET 3: THE VISIONARY (AI-Powered OCR Invoice Extraction)
+# Endpoint: POST http://localhost:8000/ocr_invoice
+# =====================================================================
+class InvoicePayload(BaseModel):
+    image_url: str
+
+@app.post("/ocr_invoice")
+async def ocr_endpoint(payload: InvoicePayload):
+    gemini_key = os.getenv("GEMINI_API_KEY")
+    if not gemini_key:
+        raise HTTPException(status_code=400, detail="GEMINI_API_KEY is missing.")
+    
+    try:
+        genai.configure(api_key=gemini_key)
+        model = genai.GenerativeModel('gemini-2.5-flash')
+        
+        prompt = """
+        [ROLE] Expert Financial Data Extractor.
+        [TASK] Extract all invoice details from the provided image.
+        [OUTPUT] You MUST output ONLY a valid JSON object.
+        [CONSTRAINTS] Strictly format the output. DO NOT include markdown tags.
+        SCHEMA REQUIRED:
+        {
+            "vendor_name": "String",
+            "invoice_date": "String",
+            "total_amount": "Number",
+            "line_items": [{"description": "String", "amount": "Number"}]
+        }
+        """
+        
+        # Note: Untuk production, Anda bisa menggunakan requests.get(payload.image_url)
+        # lalu mengirimkan image raw bytes ke Gemini. Ini adalah skeleton utamanya.
+        
+        return {
+            "status": "success", 
+            "message": "OCR Endpoint activated via Gemini 2.5 Flash.",
+            "target_url_received": payload.image_url,
+            "instruction_for_n8n": "Pass the image URL to this endpoint."
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
