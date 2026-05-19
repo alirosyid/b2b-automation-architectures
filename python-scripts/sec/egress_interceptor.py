@@ -18,7 +18,7 @@ class EgressNetworkInterceptor:
 
         if domain not in cls.WHITELISTED_DOMAINS:
             logger.critical(f"ZERO-TRUST VIOLATION: Attempted data exfiltration to unauthorized domain: {domain}")
-            return False
+            return False 
 
         logger.debug(f"Egress authorized for trusted domain: {domain}")
         return True
