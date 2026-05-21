@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  fastapi_orchestrator:
+    image: b2b-python-backend:latest
+    build: ../python-scripts
+    ports:
+      - "8000:8000"
+    environment:
+      - WORKER_CONCURRENCY=4
+    depends_on:
+      - redis_cache
+
+  redis_cache:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  n8n_worker:
+    image: n8nio/n8n:latest
+    environment:
+      - EXECUTIONS_MODE=queue
+    depends_on:
+      - redis_cache
