@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  api_gateway:
+    image: b2b-fastapi-backend:v2
+    build: 
+      context: ../python-scripts
+    ports:
+      - "8000:8000"
+    environment:
+      - UVICORN_WORKERS=4
+      - LLM_PROVIDER=groq
+    depends_on:
+      - state_db
+
+  state_db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secure_placeholder
+
+  n8n_orchestrator:
+    image: n8nio/n8n:latest
+    ports:
+      - "5678:5678"
+    environment:
+      - DB_TYPE=postgresdb
+    depends_on:
+      - state_db
