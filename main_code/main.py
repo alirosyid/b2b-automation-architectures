@@ -1,221 +1,181 @@
-import os
-import json
-import requests
-import io
-from fastapi import FastAPI, HTTPException, File, UploadFile
-from pydantic import BaseModel
-from dotenv import load_dotenv
-from PIL import Image
-import google.generativeai as genai
-
-# =====================================================================
-# INISIALISASI ENVIRONMENT & APLIKASI UTAMA
-# =====================================================================
-load_dotenv()
-
-app = FastAPI(title="Ali Rosyid - Enterprise B2B AI Gateway")
-
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
-
-# =====================================================================
-# DATA SCHEMAS (PYDANTIC MODELS UNTUK LOKET 1, 2, 3)
-# =====================================================================
-class Payload(BaseModel):
-    company_data: str
-
-class JobPayload(BaseModel):
-    job_description: str
-
-class ReplyPayload(BaseModel):
-    sender_email: str
-    email_body: str
-
-# =====================================================================
-# CORE LLM INFERENCE HELPER (GATEWAY ENGINE - GROQ)
-# =====================================================================
-def call_llama_gateway(prompt: str) -> dict:
-    if not GROQ_API_KEY:
-        raise HTTPException(status_code=500, detail="GROQ_API_KEY tidak ditemukan di file .env")
-        
-    headers = {
-        "Authorization": f"Bearer {GROQ_API_KEY}",
-        "Content-Type": "application/json"
-    }
-    
-    payload = {
-        "model": "llama-3.3-70b-versatile",
-        "messages": [{"role": "user", "content": prompt}],
-        "temperature": 0.1
-    }
-    
-    try:
-        response = requests.post(GROQ_URL, headers=headers, json=payload)
-        response.raise_for_status()
-        res_json = response.json()
-        
-        content = res_json["choices"][0]["message"]["content"].strip()
-        
-        if content.startswith("```json"):
-            content = content.replace("```json", "", 1).rstrip("```").strip()
-        elif content.startswith("```"):
-            content = content.replace("```", "", 1).rstrip("```").strip()
-            
-        return json.loads(content)
-        
-    except requests.exceptions.RequestException as e:
-        raise HTTPException(status_code=502, detail=f"Groq API Error: {str(e)}")
-    except json.JSONDecodeError:
-        raise HTTPException(status_code=502, detail="Gagal melakukan parsing JSON dari output AI.")
-
-# =====================================================================
-# LOKET 1: JALUR A - THE SNIPER (B2B Lead Enrichment / Scraped Website)
-# Endpoint: POST http://localhost:8000/enrich
-# =====================================================================
-@app.post("/enrich")
-async def enrich_lead(payload: Payload):
-    prompt = f"""
-    You are a world-class B2B IT Automation Architect. Analyze the following raw scraped website data to extract the company name, primary business industry, and identify exactly 3 critical technical or operational bottlenecks they are likely facing, along with their business impacts.
-    
-    Scraped Data:
-    {payload.company_data}
-    
-    You MUST respond ONLY with a valid raw JSON object matching this exact structure. Do not include markdown formatting like ```json or any conversational text.
-    
-    {{
-      "status": "success",
-      "ai_analysis": {{
-        "company": "Extract Real Company Name",
-        "business_category": "Extract Industry Category",
-        "bottlenecks": [
-          {{
-            "issue": "Identify critical technical bottleneck 1",
-            "business_impact": "The financial or operational impact if unresolved"
-          }},
-          {{
-            "issue": "Identify critical technical bottleneck 2",
-            "business_impact": "The financial or operational impact if unresolved"
-          }},
-          {{
-            "issue": "Identify critical technical bottleneck 3",
-            "business_impact": "The financial or operational impact if unresolved"
-          }}
-        ]
-      }}
-    }}
-    """
-    return call_llama_gateway(prompt)
-
-# =====================================================================
-# LOKET 2: JALUR B - THE SNIPER (Job Board Description Analysis)
-# Endpoint: POST http://localhost:8000/analyze_job
-# =====================================================================
-@app.post("/analyze_job")
-async def analyze_job(payload: JobPayload):
-    prompt = f"""
-    You are an expert Enterprise Sales Strategist. Analyze the following official job description to extract the company name, their primary engineering/business category, and deduce the exact systemic bottlenecks or pain points they are trying to solve by hiring for this position.
-    
-    Job Description:
-    {payload.job_description}
-    
-    You MUST respond ONLY with a valid raw JSON object matching this exact structure. Do not include markdown formatting like ```json or any conversational text.
-    
-    {{
-      "status": "success",
-      "ai_analysis": {{
-        "company": "Extract Company Name from job description, if unknown use 'Valued Prospect'",
-        "business_category": "Extract core engineering/business category",
-        "bottlenecks": [
-          {{
-            "issue": "Deduce the core technical bottleneck they are hiring to fix based on requirements",
-            "business_impact": "The risk or financial cost to their operation if this position remains unfilled"
-          }}
-        ]
-      }}
-    }}
-    """
-    return call_llama_gateway(prompt)
-
-# =====================================================================
-# LOKET 3: THE DEFENDER (Telegram RAG Email Responder)
-# Endpoint: POST http://localhost:8000/generate_reply
-# =====================================================================
-@app.post("/generate_reply")
-async def generate_reply(payload: ReplyPayload):
-    try:
-        kb_path = "knowledge_base.txt"
-        if os.path.exists(kb_path):
-            with open(kb_path, "r", encoding="utf-8") as file:
-                knowledge_base = file.read()
-        else:
-            knowledge_base = "Informasi tidak ditemukan. Gunakan nada profesional standar."
-
-        prompt = f"""
-        You are the personal AI Assistant for Ali Rosyid, a Senior AI Automation Architect.
-        A prospective client has just replied to our cold outreach email.
-        
-        Client Email ({payload.sender_email}):
-        "{payload.email_body}"
-        
-        Ali's Internal Rules & Profile (Knowledge Base):
-        {knowledge_base}
-        
-        Task: Draft a professional, confident reply based strictly on Ali's Knowledge Base. 
-        If the client asks for hourly rates, firmly decline and state Ali only does project-based or retainer contracts.
-        
-        You MUST respond ONLY with a raw JSON object matching this exact structure:
-        {{
-          "status": "success",
-          "client_intent": "Briefly summarize what the client wants",
-          "draft_reply": "The exact email text Ali should send back to the client"
-        }}
-        """
-        return call_llama_gateway(prompt)
-        
-    except Exception as e:
-        return {"status": "error", "message": str(e)}
-
-# =====================================================================
-# LOKET 4: THE VISIONARY (AI OCR Document Extraction via Native Multipart)
-# Endpoint: POST http://localhost:8000/ocr
-# =====================================================================
-@app.post("/ocr")
-async def process_document(file: UploadFile = File(...)):
-    # Tolak jika file bukan gambar
-    if not file.content_type.startswith("image/"):
-        raise HTTPException(status_code=400, detail="Invalid file type. Must be an image.")
-
-    api_key = os.getenv("GEMINI_API_KEY")
-    if not api_key:
-        raise HTTPException(status_code=500, detail="GEMINI_API_KEY tidak ditemukan di file .env")
-
-    try:
-        # Konfigurasi & Inisialisasi Mesin Utama Gemini (Versi 2.5)
-        genai.configure(api_key=api_key)
-        model = genai.GenerativeModel('gemini-2.5-flash')
-        
-        # Membaca file fisik langsung dari n8n
-        contents = await file.read()
-        image = Image.open(io.BytesIO(contents))
-        
-        # Prompt pengekstrakan presisi tinggi tanpa gangguan markdown
-        prompt = """
-        Ekstrak data dari dokumen ini ke JSON murni. 
-        DILARANG KERAS pakai markdown ataupun text pembuka.
-        Struktur output: {'Vendor_Name': 'str', 'Invoice_Number': 'str', 'Date': 'YYYY-MM-DD', 'Total_Amount': number, 'Line_Items': [{'item_name': 'str', 'price': number}]}. 
-        Jika data kosong atau tidak ditemukan, isi dengan null.
-        """
-        
-        response = model.generate_content([prompt, image])
-        raw_text = response.text
-        
-        # Pembersihan paksa jika model mengembalikan tag ```json
-        clean_text = raw_text.replace('```json', '').replace('```', '').strip()
-        
-        return {
-            "status": "success",
-            "extracted_data": json.loads(clean_text)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ali Rosyid - Founding AI Architect</title>
+    <style>
+        :root {
+            --primary: #c0392b; /* Warna aksen merah/oranye tajam khas database/Oracle */
+            --secondary: #2c3e50;
+            --accent: #ecf0f1;
+            --text-main: #2d3436;
+            --text-light: #636e72;
         }
-        
-    except Exception as e:
-        return {"status": "error", "message": str(e)}
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.4;
+            color: var(--text-main);
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 0mm 15mm 5mm 15mm;
+            background-color: #ffffff;
+        }
+        h1 {
+            font-size: 30px;
+            color: var(--secondary);
+            margin-top: 0px !important; 
+            margin-bottom: 2px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 800;
+        }
+        h2 {
+            font-size: 16px;
+            color: var(--secondary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 2px;
+            margin-top: 12px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        .contact-info {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-bottom: 12px;
+            display: flex;
+            gap: 15px;
+            font-weight: 500;
+        }
+        .contact-info a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .summary {
+            font-size: 13.5px;
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 13px;
+        }
+        .experience-item {
+            margin-bottom: 12px;
+        }
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 2px;
+        }
+        .job-title {
+            font-weight: bold;
+            font-size: 14px;
+            color: var(--secondary);
+        }
+        .job-date {
+            font-size: 13px;
+            color: var(--text-light);
+            font-weight: bold;
+        }
+        ul {
+            margin-top: 2px;
+            padding-left: 20px;
+            font-size: 13px;
+            margin-bottom: 0;
+        }
+        li {
+            margin-bottom: 4px;
+        }
+        .highlight {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        /* ATURAN MUTLAK UNTUK CETAK PDF 1 HALAMAN */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 0 !important;
+            }
+            body {
+                padding: 5mm 15mm 5mm 15mm !important; 
+            }
+            h1 {
+                margin-top: 0 !important;
+                padding-top: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Ali Rosyid</h1>
+    <div class="contact-info">
+        <span>Software & AI Architect</span> |
+        <span><a href="mailto:aliahamdarrosyid@gmail.com">aliahamdarrosyid@gmail.com</a></span> |
+        <span><a href="https://www.linkedin.com/in/alirosyid-ai-automation" target="_blank">LinkedIn</a></span> |
+        <span><a href="https://github.com/alirosyid/b2b-automation-architectures" target="_blank">GitHub</a></span>
+    </div>
+
+    <div class="summary">
+        Software Architect specialized in wrapping probabilistic AI models (LLMs) within deterministic, verifiable enterprise systems. Expert in architecting stateful, multi-agent workflows using Python, robust API backend routing, and Model Context Protocol (MCP). Proven ability to enforce rigid systemic guardrails—utilizing typed contracts and structured outputs—to ensure non-deterministic components execute idempotently in production environments.
+    </div>
+
+    <h2>Core Architecture & Deterministic Logic</h2>
+    <div class="skills-grid">
+        <ul>
+            <li><span class="highlight">Agent Orchestration:</span> Stateful workflow engines, directed graph logic, tool server integration, and replayable execution loops.</li>
+            <li><span class="highlight">Verifiable AI Systems:</span> Model Context Protocol (MCP), Structured JSON validation, strict multi-component prompt engineering.</li>
+        </ul>
+        <ul>
+            <li><span class="highlight">Backend Engineering:</span> Python, REST/GraphQL APIs, PostgreSQL, Webhook routing, durable background jobs.</li>
+            <li><span class="highlight">Infrastructure & DevOps:</span> Docker containerization, Cloud deployments, CI/CD, system observability.</li>
+        </ul>
+    </div>
+
+    <h2>Engineering Execution</h2>
+
+    <div class="experience-item">
+        <div class="job-header">
+            <span class="job-title">Senior AI Automation Architect (Independent B2B Contract)</span>
+            <span class="job-date">2023 - Present</span>
+        </div>
+        <div><em>Deterministic Workflows & Multi-Agent Infrastructure</em></div>
+        <ul>
+            <li>Architected and shipped end-to-end multi-agent systems, replacing raw probabilistic LLM outputs with deterministic pipelines by enforcing rigid JSON schemas and typed contracts for all API interactions.</li>
+            <li>Engineered stateful validation loops within orchestration workflows (Python/n8n), ensuring failed API tool-calls trigger logic-based retries rather than hallucinatory cascading errors.</li>
+            <li>Built custom Model Context Protocol (MCP) servers and RAG pipelines, connecting AI agents securely to PostgreSQL databases and external SaaS platforms with strict access constraints.</li>
+            <li>Designed a proprietary 6-component systemic guardrail framework (Role, Task, Constraint mapping) that guarantees idempotent execution across high-volume operational tasks.</li>
+        </ul>
+    </div>
+
+    <div class="experience-item">
+        <div class="job-header">
+            <span class="job-title">Backend Infrastructure & Process Integration Engineer</span>
+            <span class="job-date">2022 - 2024</span>
+        </div>
+        <div><em>Data Engineering & System Reliability</em></div>
+        <ul>
+            <li>Developed and maintained secure Python backend services, focusing on data extraction, API normalization, and continuous integration.</li>
+            <li>Monitored distributed architectures using Docker, ensuring low-latency data routing and SLA compliance across automated operational workflows.</li>
+        </ul>
+    </div>
+
+    <h2>Technical Proof of Work</h2>
+    <div class="experience-item">
+        <div class="job-header">
+            <span class="job-title"><a href="https://github.com/alirosyid/b2b-automation-architectures" target="_blank">b2b-automation-architectures (GitHub Repository)</a></span>
+        </div>
+        <ul>
+            <li>My public repository showcasing production blueprints: how I wrap non-deterministic LLM tool-calling inside deterministic Python logic, enforce MCP, and design durable, replayable AI architectures.</li>
+        </ul>
+    </div>
+
+</body>
+</html>
