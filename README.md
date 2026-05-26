@@ -23,7 +23,7 @@ graph TD
     
     C -- HTTP POST JSON --> D[FastAPI Gateway <br> Port: 8000]
     
-    subgraph Python Microservices (main.py)
+    subgraph Python_Microservices [Python Microservices - main.py]
         D --> E[/enrich <br> Groq Llama-3/]
         D --> F[/generate_reply <br> Contextual RAG/]
         D --> G[/ocr <br> Gemini 2.5 Flash/]
