@@ -9,7 +9,9 @@ from google.oauth2.service_account import Credentials
 import html
 import re
 
-# --- URL RSS Feeds Dictionary ---
+# =====================================================================
+# KONFIGURASI SUMBER & PARAMETER WAKTU
+# =====================================================================
 RSS_FEEDS = {
     "WeWorkRemotely": "https://weworkremotely.com/remote-jobs.rss",
     "Upwork": "https://www.upwork.com/ab/feed/jobs/rss?q=python+OR+ai+OR+automation",
@@ -23,30 +25,37 @@ RSS_FEEDS = {
     "RemoteGlobal": "https://remoteglobal.com/jobs/feed/"
 }
 
-KEYWORDS = ['n8n', 'workflow automation', 'ai automation', 'make.com', 'zapier', 'chatbot', 'llm integration', 'openai api', 'process automation', 'rag', 'langchain', 'ai agent', 'content automation', 'business automation', 'api integration']
+TIME_LIMIT_HOURS = 4
 
-# --- TAMBAHAN BLACKLIST UNTUK MEMBLOKIR DATA SAMPAH SEJAK AWAL ---
+# =====================================================================
+# SISTEM KATA KUNCI DUA LAPIS (THE SNIPER 2.0 FILTER)
+# =====================================================================
+PRIMARY_KEYWORDS = ['n8n', 'ai automation', 'ai agent', 'llm', 'langchain', 'openai', 'make.com', 'zapier', 'machine learning', 'chatgpt', 'artificial intelligence']
+SECONDARY_KEYWORDS = ['python', 'api integration', 'process automation', 'workflow automation', 'chatbot', 'backend']
+
+# DAFTAR HITAM SUPER KETAT (Mencegah job sampah masuk ke Llama-3)
 BLACKLIST = [
     'support', 'customer', 'marketing', 'sales', 'accounting', 'designer', 
     'copywriter', 'media', 'counsel', 'account executive', 
-    'devops', 'hr', 'recruiter', 'writer', 'finance', 'product manager'
+    'devops', 'hr', 'recruiter', 'writer', 'finance', 'product manager',
+    'qa', 'ios', 'android', 'frontend', 'mobile', 'security', 'crm', 
+    'specialist', 'analyst', 'battery', 'garnishment', 'offensive', 'ui/ux', 'quality assurance', 'hardware'
 ]
 
-# KOMPILASI REGEX DI LUAR LOOP UNTUK PERFORMA MAKSIMAL (Mencegah salah blokir potongan kata)
+# Kompilasi Regex di luar loop untuk performa maksimal
 BLACKLIST_PATTERN = re.compile(r'\b(?:' + '|'.join(BLACKLIST) + r')\b', re.IGNORECASE)
 
-TIME_LIMIT_HOURS = 4
-
+# =====================================================================
+# FUNGSI UTILITAS
+# =====================================================================
 def setup_google_sheets():
     # Mengambil kredensial dari environment variable
     gcp_service_account_json = os.environ.get('GCP_SERVICE_ACCOUNT')
     if not gcp_service_account_json:
         raise ValueError("Environment variable GCP_SERVICE_ACCOUNT belum di-set!")
     
-    # Parse JSON creds
     creds_dict = json.loads(gcp_service_account_json)
     
-    # Scopes untuk akses Sheets dan Drive
     scopes = [
         "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/drive"
@@ -56,39 +65,56 @@ def setup_google_sheets():
     client = gspread.authorize(creds)
     
     # Buka Spreadsheet
-    # Pastikan untuk mengganti "Data Job Sniper" dengan nama atau ID file Google Sheets yang sebenarnya
     sheet = client.open("Data Job Sniper").sheet1
     return sheet
 
 def is_recent(published_parsed):
     if not published_parsed:
         return False
-    # Konversi feedparser struct_time ke datetime object dengan timezone UTC
     published_dt = datetime(*published_parsed[:6], tzinfo=timezone.utc)
     now_dt = datetime.now(timezone.utc)
-    # Bandingkan rentang waktunya (<= 4 jam)
     return (now_dt - published_dt) <= timedelta(hours=TIME_LIMIT_HOURS)
-
-def has_keywords(text):
-    if not text:
-        return False
-    text_lower = text.lower()
-    return any(keyword in text_lower for keyword in KEYWORDS)
 
 def get_existing_links(sheet):
     try:
-        # Mengambil nilai pada kolom D (Indeks 4 di gspread)
-        # Menghindari duplikasi parsing, gunakan set
         links = sheet.col_values(4)
         return set(links)
     except Exception as e:
         print(f"Error mengambil data dari baris/kolom Google Sheets: {e}")
         return set()
 
-def main():
-    print(f"=== Job Sniper Crawler Started at {datetime.now()} ===")
+# =====================================================================
+# MESIN EVALUASI (LOGIKA PENYARINGAN KETAT)
+# =====================================================================
+def evaluate_job(title, description):
+    title_lower = title.lower()
+    desc_lower = description.lower()
     
-    # 1. Autentikasi Google Sheets
+    # FILTER 1: Tembok Daftar Hitam (Blokir instan dari Judul)
+    if BLACKLIST_PATTERN.search(title_lower):
+        print(f"   [BLOCKED] Judul masuk daftar hitam: {title}")
+        return False
+        
+    # FILTER 2: Jalur VIP (Jika judul langsung menyebut kata kunci utama)
+    if any(kw in title_lower for kw in PRIMARY_KEYWORDS):
+        return True
+        
+    # FILTER 3: Kepadatan Kata Kunci di Deskripsi
+    primary_match = sum(1 for kw in PRIMARY_KEYWORDS if kw in desc_lower)
+    secondary_match = sum(1 for kw in SECONDARY_KEYWORDS if kw in desc_lower)
+    
+    # Lolos jika minimal ada 1 keyword utama ATAU 2 keyword pendukung di deskripsi
+    if primary_match >= 1 or secondary_match >= 2:
+        return True
+        
+    return False
+
+# =====================================================================
+# PROGRAM UTAMA
+# =====================================================================
+def main():
+    print(f"=== Job Sniper Crawler (V2.0) Started at {datetime.now()} ===")
+    
     try:
         sheet = setup_google_sheets()
         existing_links = get_existing_links(sheet)
@@ -97,7 +123,7 @@ def main():
         print(f"CRITICAL: Gagal menyiapkan Google Sheets - {e}")
         return
 
-    # 2. Custom headers (Chrome User-Agent) untuk bypass Anti-Bot
+    # Custom headers untuk bypass Anti-Bot
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
@@ -105,12 +131,10 @@ def main():
 
     scrape_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    # 3. Looping ke setiap resource feed RSS
     for source_name, url in RSS_FEEDS.items():
         print(f"\n-> Memproses sumber: {source_name} ({url})")
         
         try:
-            # Gunakan requests agar header terjamin digunakan (bukan via feedparser internal)
             response = requests.get(url, headers=headers, timeout=15)
             response.raise_for_status()
             
@@ -124,30 +148,21 @@ def main():
             for entry in feed.entries:
                 link = entry.get('link', '')
                 
-                # Lewati jika sudah ada di Google Sheets
                 if not link or link in existing_links:
                     continue
                 
-                # Filter #1: Waktu Publikasi (4 jam terakhir)
                 if not is_recent(entry.get('published_parsed')):
                     continue
                 
                 title = entry.get('title', '')
-                
-                # --- FILTER BLACKLIST (REGEX WORD BOUNDARY) ---
-                if BLACKLIST_PATTERN.search(title):
-                    print(f"   [BLOCKED] Judul masuk daftar hitam: {title}")
-                    continue 
-                
-                # Filter beberapa feed menyertakan summary, atau description
                 description = entry.get('description', entry.get('summary', ''))
                 
-                # Filter #2: Keyword Spesifik
-                if not (has_keywords(title) or has_keywords(description)):
+                # Eksekusi Mesin Evaluasi "Sniper 2.0"
+                if not evaluate_job(title, description):
                     continue
                 
-                # Job memenuhi semua kriteria: bersihkan tag html
-                clean_description = re.sub(r'<[^>]+>', '', html.unescape(description))[:2000] # Batasi ukuran teks agar API tidak error
+                # Bersihkan tag HTML
+                clean_description = re.sub(r'<[^>]+>', '', html.unescape(description))[:2000]
                 
                 # Kolom: A(Waktu), B(Sumber), C(Posisi), D(Link), E(Deskripsi), F(Status)
                 new_row = [scrape_time, source_name, title, link, clean_description, ""]
@@ -158,7 +173,7 @@ def main():
                     new_jobs_found += 1
                     print(f"   [SUCCESS] Menyimpan Job Baru: {title}")
                     
-                    # Sleep 2 detik per insert untuk menghindari rate limiter Google Sheets API
+                    # Jeda agar tidak terkena rate limit Google API
                     time.sleep(2)
                 except Exception as g_error:
                     print(f"   [ERROR] Gagal menyimpan '{title}' ke sheet: {g_error}")
@@ -166,7 +181,6 @@ def main():
             print(f"   Selesai: {new_jobs_found} job baru disimpan dari {source_name}.")
             
         except Exception as e:
-            # Robustness: Satu error di satu feed tidak akan mematikan script
             print(f"   [ERROR] Terjadi kegagalan saat scrape feed {source_name}: {e}")
 
     print("\n=== Proses Scraping Job Selesai ===")
