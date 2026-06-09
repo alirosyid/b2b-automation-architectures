@@ -1,0 +1,14 @@
+name: "FinOps: Abandoned Workflow & PR Reaper (Portfolio Demo)"
+on:
+  workflow_dispatch: # Safe Mode: Manual trigger only
+
+jobs:
+  reap-stale-compute:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Simulate Concurrency Cancellation
+        run: |
+          echo "[PORTFOLIO FINOPS MODE] Scanning for redundant workflow executions..."
+          echo "[MOCK] Found 3 overlapping PR builds for 'feature/vector-db'."
+          echo "[MOCK] Canceling older runs to preserve GitHub Actions compute minutes."
+          echo "[PORTFOLIO FINOPS MODE] Saved approximately $2.40 in compute costs today."
