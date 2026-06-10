@@ -1,0 +1,15 @@
+name: "FinOps: Cloud Resource Reaper (Portfolio Demo)"
+on:
+  workflow_dispatch: # STRICT PROTOCOL: Manual trigger only. Zero-Auto-Execution.
+
+jobs:
+  sweep-orphaned-resources:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Simulate Cloud FinOps Sweep
+        run: |
+          echo "[PORTFOLIO FINOPS MODE] Scanning AWS/GCP for orphaned resources..."
+          echo "[MOCK] Found 2 unattached EBS volumes (gp3, 100GB each)."
+          echo "[MOCK] Found 1 idle Elastic IP address."
+          echo "[MOCK] Simulated termination of orphaned resources."
+          echo "[PORTFOLIO FINOPS MODE] Sweeper completed. Projected monthly savings: $42.50"
