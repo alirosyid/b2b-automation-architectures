@@ -1,0 +1,17 @@
+name: "SecOps: Supply Chain Auditor (Portfolio Demo)"
+on:
+  workflow_dispatch: # STRICT PROTOCOL: Manual trigger only. Zero-Auto-Execution.
+
+jobs:
+  audit-dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Simulate Dependency Scan
+        run: |
+          echo "[PORTFOLIO SECOPS MODE] Initiating Supply Chain Vulnerability Scan..."
+          echo "[MOCK] Scanning requirements.txt and Dockerfile..."
+          echo "[MOCK] CVE-2026-11932 detected in 'requests' library (Severity: HIGH)."
+          echo "[MOCK] Recommendation: Bump 'requests' to version 2.35.1."
+          echo "[PORTFOLIO SECOPS MODE] Audit complete. Build failure disabled for showcase."
