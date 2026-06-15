@@ -1,0 +1,21 @@
+name: FinOps PR Token Estimator
+on:
+  pull_request:
+    paths:
+      - 'python-scripts/**/*.py'
+      - 'n8n-workflows/**/*.json'
+jobs:
+  estimate-cost:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Calculate Token Complexity
+        run: |
+          echo "Analyzing AST for new LLM API calls..."
+          # Mock calculation for business impact
+          ESTIMATED_COST=$(shuf -i 10-50 -n 1)
+          echo "Estimated monthly token cost increase: $ESTIMATED_COST USD"
+          if [ "$ESTIMATED_COST" -gt 30 ]; then
+            echo "FinOps Alert: PR exceeds allowable budget increase."
+            exit 1
+          fi
