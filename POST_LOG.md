@@ -1,25 +1,30 @@
-# Direktori Eksekusi AI & Otomatisasi (B2B Architecture)
+# AI Execution & Automation Directory (B2B Architecture)
 
-Dokumentasi ini adalah buku besar (ledger) yang melacak setiap pembaruan arsitektur, injeksi modul, dan publikasi wawasan terkait implementasi infrastruktur AI tingkat lanjut.
+This documentation serves as the master ledger tracking every architectural update, module injection, and insight publication related to the implementation of advanced AI infrastructure.
 
-| ID | Tanggal | Domain Arsitektur / Topik Utama | Target Path (Pusat Direktori) | Status |
+| ID | Date | Architectural Domain / Main Topic | Target Path (Directory Hub) | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| BASE | 2026-06-15 | Infrastruktur Dasar & Failover | `infrastructure/` | *Established* |
+| BASE | 2026-06-15 | Base Infrastructure & Failover | `infrastructure/` | *Established* |
 | BASE | 2026-06-15 | RAG Support & Vector Synchronization | `async_rag_support/` | *Established* |
-| BASE | 2026-06-15 | Operasional Bisnis & Onboarding | `business-ops/` | *Established* |
-| BASE | 2026-06-15 | Utilitas Inti & Wrapper Prompt | `core-utils/` | *Established* |
-| BASE | 2026-06-15 | Dokumentasi Keamanan & Kontinuitas Bisnis | `docs/` | *Established* |
-| BASE | 2026-06-15 | Mesin Pengayaan Prospek (Lead Enrichment) | `lead_enrichment_engine/` | *Established* |
-| BASE | 2026-06-15 | Otomatisasi N8N & Ekstraksi B2B | `n8n-workflows/` | *Established* |
-| BASE | 2026-06-15 | Orkestrasi Swarm & Agen AI Lanjutan | `python-scripts/agents/` | *Established* |
-| BASE | 2026-06-15 | Analitik AI, ROI & Observabilitas LLM | `python-scripts/analytics/` | *Established* |
-| BASE | 2026-06-15 | API Gateway, Pemutus Sirkuit & Ingress | `python-scripts/api/` | *Established* |
-| BASE | 2026-06-15 | Manajemen Status Memori & Eksekusi Tahan Lama | `python-scripts/core/` | *Established* |
-| BASE | 2026-06-15 | Pemrosesan Data & Inferensi Skema Evolusioner | `python-scripts/data/` | *Established* |
-| BASE | 2026-06-15 | Integrasi Hub B2B & Manajemen Kuota | `python-scripts/integrations/` | *Established* |
-| BASE | 2026-06-15 | Pekerjaan Latar Belakang & Tata Kelola FinOps | `python-scripts/jobs/` | *Established* |
-| BASE | 2026-06-15 | SRE Otomatis, Pemulihan DLQ & Telemetri | `python-scripts/ops/` | *Established* |
-| BASE | 2026-06-15 | Stealth Scraping & Ekstraktor Data B2B | `python-scripts/scraping/` | *Established* |
-| BASE | 2026-06-15 | Keamanan Tingkat Lanjut, Privasi & Zero Trust | `python-scripts/sec/` | *Established* |
-| BASE | 2026-06-15 | Evaluasi Sistem & Pengujian Ketahanan | `python-scripts/tests/` | *Established* |
-| BASE | 2026-06-15 | Analisis Tren & Ekstraksi SEO Programatis | `trend-analysis/` | *Established* |
+| BASE | 2026-06-15 | Business Operations & Onboarding | `business-ops/` | *Established* |
+| BASE | 2026-06-15 | Core Utilities & Prompt Wrappers | `core-utils/` | *Established* |
+| BASE | 2026-06-15 | Security Documentation & Business Continuity | `docs/` | *Established* |
+| BASE | 2026-06-15 | Lead Enrichment Engine | `lead_enrichment_engine/` | *Established* |
+| BASE | 2026-06-15 | N8N Automation & B2B Extraction | `n8n-workflows/` | *Established* |
+| BASE | 2026-06-15 | Swarm Orchestration & Advanced AI Agents | `python-scripts/agents/` | *Established* |
+| BASE | 2026-06-15 | AI Analytics, ROI & LLM Observability | `python-scripts/analytics/` | *Established* |
+| BASE | 2026-06-15 | API Gateway, Circuit Breakers & Ingress | `python-scripts/api/` | *Established* |
+| BASE | 2026-06-15 | Memory State Management & Durable Execution | `python-scripts/core/` | *Established* |
+| BASE | 2026-06-15 | Data Processing & Evolutionary Schema Inference | `python-scripts/data/` | *Established* |
+| BASE | 2026-06-15 | B2B Hub Integration & Quota Management | `python-scripts/integrations/` | *Established* |
+| BASE | 2026-06-15 | Background Jobs & FinOps Governance | `python-scripts/jobs/` | *Established* |
+| BASE | 2026-06-15 | Automated SRE, DLQ Recovery & Telemetry | `python-scripts/ops/` | *Established* |
+| BASE | 2026-06-15 | Stealth Scraping & B2B Data Extractors | `python-scripts/scraping/` | *Established* |
+| BASE | 2026-06-15 | Advanced Security, Privacy & Zero Trust | `python-scripts/sec/` | *Established* |
+| BASE | 2026-06-15 | System Evaluation & Resilience Testing | `python-scripts/tests/` | *Established* |
+| BASE | 2026-06-15 | Trend Analysis & Programmatic SEO Extraction | `trend-analysis/` | *Established* |
+| PATCH | 2026-06-15 | Async Media Assembly & Token Bucket Limiter | `n8n-workflows/` | *Deployed* |
+| PATCH | 2026-06-15 | FinOps Arbitrage Router & Token Governor | `python-scripts/core/` | *Deployed* |
+| PATCH | 2026-06-15 | Zero-Trust PII Redaction Gateway | `python-scripts/sec/` | *Deployed* |
+| PATCH | 2026-06-15 | GraphRAG Schema Drift Synchronizer | `python-scripts/data/` | *Deployed* |
+| PATCH | 2026-06-15 | SRE AST Hot-Patching & Telemetry | `python-scripts/ops/` | *Deployed* |
