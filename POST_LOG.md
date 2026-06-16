@@ -28,3 +28,13 @@ This documentation serves as the master ledger tracking every architectural upda
 | PATCH | 2026-06-15 | Zero-Trust PII Redaction Gateway | `python-scripts/sec/` | *Deployed* |
 | PATCH | 2026-06-15 | GraphRAG Schema Drift Synchronizer | `python-scripts/data/` | *Deployed* |
 | PATCH | 2026-06-15 | SRE AST Hot-Patching & Telemetry | `python-scripts/ops/` | *Deployed* |
+| NEW | 2026-06-16 | Semantic Arbitrage API Router | `python-scripts/api/` | *Deployed* |
+| NEW | 2026-06-16 | Zero-Trust PII Redaction Gateway | `python-scripts/sec/` | *Deployed* |
+| NEW | 2026-06-16 | GraphRAG Schema Drift Synchronizer | `python-scripts/data/` | *Deployed* |
+| NEW | 2026-06-16 | SRE Memory Hot-Patch & Telemetry | `python-scripts/ops/` | *Deployed* |
+| NEW | 2026-06-16 | Asynchronous B2B Lead Enrichment Swarm | `python-scripts/agents/` | *Deployed* |
+| NEW | 2026-06-16 | Automated N8N Token Bucket Limiter | `n8n-workflows/` | *Deployed* |
+| NEW | 2026-06-16 | Headless Playwright Stealth Scraper | `python-scripts/scraping/` | *Deployed* |
+| NEW | 2026-06-16 | Programmatic SEO Trend Analyzer | `trend-analysis/` | *Deployed* |
+| NEW | 2026-06-16 | Media Gen Constraints (No Zoom) | `core-utils/` | *Deployed* |
+| NEW | 2026-06-16 | FinOps Daily ROI Telemetry Logger | `python-scripts/analytics/` | *Deployed* |
