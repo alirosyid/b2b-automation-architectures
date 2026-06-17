@@ -38,3 +38,12 @@ This documentation serves as the master ledger tracking every architectural upda
 | NEW | 2026-06-16 | Programmatic SEO Trend Analyzer | `trend-analysis/` | *Deployed* |
 | NEW | 2026-06-16 | Media Gen Constraints (No Zoom) | `core-utils/` | *Deployed* |
 | NEW | 2026-06-16 | FinOps Daily ROI Telemetry Logger | `python-scripts/analytics/` | *Deployed* |
+| NEW | 2026-06-17 | AI Customer Churn Predictor | `python-scripts/analytics/` | *Deployed* |
+| NEW | 2026-06-17 | Automated Stripe Invoice Reconciler | `business-ops/` | *Deployed* |
+| NEW | 2026-06-17 | Stealth GitHub Trending Keyword Alert | `trend-analysis/` | *Deployed* |
+| NEW | 2026-06-17 | Self-Healing N8N Webhook Monitor | `infrastructure/` | *Deployed* |
+| NEW | 2026-06-17 | B2B Lead Intent Scorer | `lead_enrichment_engine/` | *Deployed* |
+| NEW | 2026-06-17 | LLM API Key Rotation Manager | `python-scripts/sec/` | *Deployed* |
+| NEW | 2026-06-17 | Asynchronous Document Chunking Engine | `async_rag_support/` | *Deployed* |
+| NEW | 2026-06-17 | Multi-Tenant Database Provisioner | `python-scripts/data/` | *Deployed* |
+| NEW | 2026-06-17 | Cross-Platform Social Proof Aggregator | `python-scripts/integrations/` | *Deployed* |
