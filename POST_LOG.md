@@ -47,3 +47,12 @@ This documentation serves as the master ledger tracking every architectural upda
 | NEW | 2026-06-17 | Asynchronous Document Chunking Engine | `async_rag_support/` | *Deployed* |
 | NEW | 2026-06-17 | Multi-Tenant Database Provisioner | `python-scripts/data/` | *Deployed* |
 | NEW | 2026-06-17 | Cross-Platform Social Proof Aggregator | `python-scripts/integrations/` | *Deployed* |
+| NEW | 2026-06-18 | Automated AI Pull Request Reviewer | `infrastructure/` | *Deployed* | 
+| NEW | 2026-06-18 | B2B Cold Outreach Personalization Engine | `lead_enrichment_engine/` | *Deployed* | 
+| NEW | 2026-06-18 | RAG Knowledge Base Auto-Updater | `async_rag_support/` | *Deployed* | 
+| NEW | 2026-06-18 | Competitor Pricing Monitor Webhook | `business-ops/` | *Deployed* | 
+| NEW | 2026-06-18 | SEO Trend Clustering Algorithm | `trend-analysis/` | *Deployed* | 
+| NEW | 2026-06-18 | LLM Cost Anomaly Detector | `python-scripts/analytics/` | *Deployed* | 
+| NEW | 2026-06-18 | Git Pre-Commit Secret Leak Scanner | `python-scripts/sec/` | *Deployed* | 
+| NEW | 2026-06-18 | Stealth Brand Mention Scraper | `python-scripts/scraping/` | *Deployed* | 
+| NEW | 2026-06-18 | SLA Breach Auto-Escalator | `python-scripts/jobs/` | *Deployed* |
