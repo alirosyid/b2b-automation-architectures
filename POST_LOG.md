@@ -56,12 +56,21 @@ This documentation serves as the master ledger tracking every architectural upda
 | NEW | 2026-06-18 | Git Pre-Commit Secret Leak Scanner | `python-scripts/sec/` | *Deployed* |
 | NEW | 2026-06-18 | Stealth Brand Mention Scraper | `python-scripts/scraping/` | *Deployed* |
 | NEW | 2026-06-18 | SLA Breach Auto-Escalator | `python-scripts/jobs/` | *Deployed* |
-| NEW | 2026-06-19 | Automated Case Study Generator | `business-ops/` | *Deployed* | 
-| NEW | 2026-06-19 | Dark Social Intent Scavenger | `python-scripts/scraping/` | *Deployed* | 
-| NEW | 2026-06-19 | Whisper Voice-to-CRM Synchronizer | `python-scripts/integrations/` | *Deployed* | 
-| NEW | 2026-06-19 | N8N JSON Workflow Optimizer | `n8n-workflows/` | *Deployed* | 
-| NEW | 2026-06-19 | Automated B2B Contract Redliner | `core-utils/` | *Deployed* | 
-| NEW | 2026-06-19 | Swarm Agent Proposal Negotiator | `python-scripts/agents/` | *Deployed* | 
-| NEW | 2026-06-19 | Predictive API Rate Limit Throttler | `python-scripts/api/` | *Deployed* | 
-| NEW | 2026-06-19 | Serverless GPU Warm-up Pinger | `python-scripts/ops/` | *Deployed* | 
+| NEW | 2026-06-19 | Automated Case Study Generator | `business-ops/` | *Deployed* |
+| NEW | 2026-06-19 | Dark Social Intent Scavenger | `python-scripts/scraping/` | *Deployed* |
+| NEW | 2026-06-19 | Whisper Voice-to-CRM Synchronizer | `python-scripts/integrations/` | *Deployed* |
+| NEW | 2026-06-19 | N8N JSON Workflow Optimizer | `n8n-workflows/` | *Deployed* |
+| NEW | 2026-06-19 | Automated B2B Contract Redliner | `core-utils/` | *Deployed* |
+| NEW | 2026-06-19 | Swarm Agent Proposal Negotiator | `python-scripts/agents/` | *Deployed* |
+| NEW | 2026-06-19 | Predictive API Rate Limit Throttler | `python-scripts/api/` | *Deployed* |
+| NEW | 2026-06-19 | Serverless GPU Warm-up Pinger | `python-scripts/ops/` | *Deployed* |
 | NEW | 2026-06-19 | Zero-Trust Payload Signature Validator | `python-scripts/sec/` | *Deployed* |
+| NEW | 2026-06-20 | Zero-Day Vulnerability Dependency Auto-Patcher | `python-scripts/sec/` | *Deployed* |
+| NEW | 2026-06-20 | High-Ticket Client ROI Dashboard Generator | `business-ops/` | *Deployed* |
+| NEW | 2026-06-20 | Asynchronous Semantic Drift Monitor | `async_rag_support/` | *Deployed* |
+| NEW | 2026-06-20 | Headless LinkedIn Decision-Maker Tracker | `python-scripts/scraping/` | *Deployed* |
+| NEW | 2026-06-20 | Multi-Cloud Spot Instance Bidder | `python-scripts/ops/` | *Deployed* |
+| NEW | 2026-06-20 | Automated B2B Webinar Intent Scorer | `lead_enrichment_engine/` | *Deployed* |
+| NEW | 2026-06-20 | Global API Rate Limit Synchronizer | `python-scripts/integrations/` | *Deployed* |
+| NEW | 2026-06-20 | Programmatic SEO Content Clustering | `trend-analysis/` | *Deployed* |
+| NEW | 2026-06-20 | Core Memory State Snapshotter | `python-scripts/core/` | *Deployed* |
