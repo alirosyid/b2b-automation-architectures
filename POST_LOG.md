@@ -74,3 +74,12 @@ This documentation serves as the master ledger tracking every architectural upda
 | NEW | 2026-06-20 | Global API Rate Limit Synchronizer | `python-scripts/integrations/` | *Deployed* |
 | NEW | 2026-06-20 | Programmatic SEO Content Clustering | `trend-analysis/` | *Deployed* |
 | NEW | 2026-06-20 | Core Memory State Snapshotter | `python-scripts/core/` | *Deployed* |
+| NEW | 2026-06-21 | Stealth LinkedIn Authority Poster | `business-ops/` | *Deployed* |
+| NEW | 2026-06-21 | N8N Webhook Payload Validator | `n8n-workflows/` | *Deployed* |
+| NEW | 2026-06-21 | Freelance Platform Auto-Bidder Swarm | `lead_enrichment_engine/` | *Deployed* |
+| NEW | 2026-06-21 | Automated Video Metadata Extractor | `core-utils/` | *Deployed* |
+| NEW | 2026-06-21 | B2B Email Deliverability Guardian | `python-scripts/sec/` | *Deployed* |
+| NEW | 2026-06-21 | Discord Community Sentiment Tracker | `python-scripts/analytics/` | *Deployed* |
+| NEW | 2026-06-21 | Competitor Ad-Copy Stealth Scraper | `python-scripts/scraping/` | *Deployed* |
+| NEW | 2026-06-21 | API Gateway Response Cache Layer | `python-scripts/api/` | *Deployed* |
+| NEW | 2026-06-21 | Automated N8N Error Summarizer | `python-scripts/ops/` | *Deployed* |
