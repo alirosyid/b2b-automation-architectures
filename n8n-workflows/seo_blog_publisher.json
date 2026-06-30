@@ -1,0 +1,29 @@
+{
+  "name": "Autonomous SEO Content Pipeline",
+  "nodes": [
+    {
+      "parameters": { "rule": { "interval": [ { "field": "days", "interval": 1 } ] } },
+      "name": "Daily Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "model": "claude-3-5-sonnet-20240620",
+        "prompt": "Write a 1500-word highly technical SEO blog based on {{ $json.keyword }}. Format in Markdown."
+      },
+      "name": "Anthropic Claude Writer",
+      "type": "n8n-nodes-base.anthropic",
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://api.webflow.com/collections/blog/items",
+        "method": "POST"
+      },
+      "name": "Webflow Publisher",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [750, 300]
+    }
+  ]
+}
