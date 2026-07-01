@@ -1,29 +1,22 @@
 {
-  "name": "Autonomous SEO Content Pipeline",
+  "name": "Autonomous SEO Content Pipeline v2",
   "nodes": [
     {
-      "parameters": { "rule": { "interval": [ { "field": "days", "interval": 1 } ] } },
-      "name": "Daily Trigger",
-      "type": "n8n-nodes-base.scheduleTrigger",
-      "position": [250, 300]
-    },
-    {
       "parameters": {
-        "model": "claude-3-5-sonnet-20240620",
-        "prompt": "Write a 1500-word highly technical SEO blog based on {{ $json.keyword }}. Format in Markdown."
+        "url": "https://api.indexnow.org/indexnow",
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "host", "value": "yourdomain.com" },
+            { "name": "key", "value": "YOUR_INDEXNOW_KEY" },
+            { "name": "urlList", "value": "={{ $json.published_url }}" }
+          ]
+        }
       },
-      "name": "Anthropic Claude Writer",
-      "type": "n8n-nodes-base.anthropic",
-      "position": [500, 300]
-    },
-    {
-      "parameters": {
-        "url": "https://api.webflow.com/collections/blog/items",
-        "method": "POST"
-      },
-      "name": "Webflow Publisher",
+      "name": "IndexNow Instant Pinger",
       "type": "n8n-nodes-base.httpRequest",
-      "position": [750, 300]
+      "position": [1000, 300]
     }
   ]
 }
