@@ -155,3 +155,12 @@ This documentation serves as the master ledger tracking every architectural upda
 | NEW | 2026-06-30 | Enterprise LLM Prompt Injection Firewall | `python-scripts/sec/` | *Deployed* |
 | NEW | 2026-06-30 | N8N Automated SEO Blog Publisher | `n8n-workflows/` | *Deployed* |
 | NEW | 2026-06-30 | Predictive FinOps K8s Auto-Scaler | `infrastructure/` | *Deployed* |
+| NEW | 2026-07-01 | Autonomous Vendor Pricing Negotiator | `python-scripts/agents/` | *Deployed* |
+| NEW | 2026-07-01 | HubSpot AI Duplicate Cleanser | `python-scripts/integrations/` | *Deployed* |
+| PATCH | 2026-07-01 | Predictive GPU Auto-Scaler v2 | `infrastructure/` | *Deployed* |
+| NEW | 2026-07-01 | Zero-Trust API Key Auditor | `python-scripts/sec/` | *Deployed* |
+| NEW | 2026-07-01 | Cross-Lingual RAG Query Router | `async_rag_support/` | *Deployed* |
+| PATCH | 2026-07-01 | N8N SEO Content Pipeline v2 | `n8n-workflows/` | *Deployed* |
+| NEW | 2026-07-01 | Competitor GitHub Repo Analyzer | `trend-analysis/` | *Deployed* |
+| NEW | 2026-07-01 | Automated Contractor Payroll Reconciler | `business-ops/` | *Deployed* |
+| NEW | 2026-07-01 | LLM API Cost Arbitrage Router | `python-scripts/analytics/` | *Deployed* |
