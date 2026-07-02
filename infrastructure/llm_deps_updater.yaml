@@ -1,0 +1,36 @@
+name: Automated LLM SDK Dependency Updater
+
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Runs every Sunday at midnight
+  workflow_dispatch:
+
+jobs:
+  update-ai-dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: Install Pur (pip update requirements)
+        run: pip install pur
+        
+      - name: Update specific AI libraries
+        run: |
+          pur -r requirements.txt --pkg openai
+          pur -r requirements.txt --pkg anthropic
+          pur -r requirements.txt --pkg langchain
+          
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(deps): bump LLM SDK dependencies to latest stable versions"
+          title: "Automated AI SDK Updates"
+          body: "Weekly automated PR to ensure AI dependencies are up to date with API changes."
+          branch: "auto-update-llm-deps"
