@@ -164,3 +164,12 @@ This documentation serves as the master ledger tracking every architectural upda
 | NEW | 2026-07-01 | Competitor GitHub Repo Analyzer | `trend-analysis/` | *Deployed* |
 | NEW | 2026-07-01 | Automated Contractor Payroll Reconciler | `business-ops/` | *Deployed* |
 | NEW | 2026-07-01 | LLM API Cost Arbitrage Router | `python-scripts/analytics/` | *Deployed* |
+| NEW | 2026-07-02 | AI Contract Risk Scorer | `business-ops/` | *Deployed* |
+| NEW | 2026-07-02 | Automated LLM SDK Dependency Updater | `infrastructure/` | *Deployed* |
+| PATCH | 2026-07-02 | Multi-Agent RAG Orchestrator v2 | `async_rag_support/` | *Deployed* |
+| NEW | 2026-07-02 | Slack-to-Jira Auto-Ticket Agent | `python-scripts/integrations/` | *Deployed* |
+| NEW | 2026-07-02 | Cold Email Deliverability Auto-Warming | `lead_enrichment_engine/` | *Deployed* |
+| PATCH | 2026-07-02 | Zero-Trust IAM Credential Rotator | `python-scripts/sec/` | *Deployed* |
+| PATCH | 2026-07-02 | Serverless GPU Cost Anomaly Alerting | `python-scripts/analytics/` | *Deployed* |
+| NEW | 2026-07-02 | LinkedIn Auto-Commenter for B2B Growth | `python-scripts/scraping/` | *Deployed* |
+| NEW | 2026-07-02 | N8N Automated SaaS Competitor Tracker | `n8n-workflows/` | *Deployed* |
