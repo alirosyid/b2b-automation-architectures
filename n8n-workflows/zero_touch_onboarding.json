@@ -1,0 +1,38 @@
+{
+  "name": "Zero-Touch B2B Client Onboarding",
+  "nodes": [
+    {
+      "parameters": { "events": [ "checkout.session.completed" ] },
+      "name": "Stripe Webhook",
+      "type": "n8n-nodes-base.stripeTrigger",
+      "position": [100, 300]
+    },
+    {
+      "parameters": {
+        "command": "python3 /infrastructure/provision_tenant.py --client {{ $json.customer_details.name }}"
+      },
+      "name": "Provision DB Tenant",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [350, 300]
+    },
+    {
+      "parameters": {
+        "channel": "#new-clients",
+        "text": "=New client {{ $json.customer_details.name }} onboarded automatically. DB provisioned."
+      },
+      "name": "Notify Internal Slack",
+      "type": "n8n-nodes-base.slack",
+      "position": [600, 300]
+    },
+    {
+      "parameters": {
+        "toEmail": "={{ $json.customer_details.email }}",
+        "subject": "Welcome! Here is your secure API Access",
+        "html": "Your isolated environment is ready. Access your dashboard here."
+      },
+      "name": "Send Welcome Email",
+      "type": "n8n-nodes-base.emailSend",
+      "position": [850, 300]
+    }
+  ]
+}
