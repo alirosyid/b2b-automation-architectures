@@ -173,3 +173,12 @@ This documentation serves as the master ledger tracking every architectural upda
 | PATCH | 2026-07-02 | Serverless GPU Cost Anomaly Alerting | `python-scripts/analytics/` | *Deployed* |
 | NEW | 2026-07-02 | LinkedIn Auto-Commenter for B2B Growth | `python-scripts/scraping/` | *Deployed* |
 | NEW | 2026-07-02 | N8N Automated SaaS Competitor Tracker | `n8n-workflows/` | *Deployed* |
+| NEW | 2026-07-03 | Autonomous Enterprise RFP Responder | `business-ops/` | *Deployed* |
+| NEW | 2026-07-03 | FinOps Idle Cloud Resource Reaper | `infrastructure/` | *Deployed* |
+| NEW | 2026-07-03 | AI Video Prospecting Agent (HeyGen API) | `python-scripts/agents/` | *Deployed* |
+| PATCH | 2026-07-03 | N8N Zero-Touch Client Onboarding | `n8n-workflows/` | *Deployed* |
+| NEW | 2026-07-03 | Slack-to-RAG Knowledge Extractor | `python-scripts/data/` | *Deployed* |
+| NEW | 2026-07-03 | ML-Powered Behavioral API Firewall | `python-scripts/sec/` | *Deployed* |
+| NEW | 2026-07-03 | Autonomous Terraform Drift Healer | `python-scripts/ops/` | *Deployed* |
+| PATCH | 2026-07-03 | Dark Social Buying Intent Decoder v2 | `lead_enrichment_engine/` | *Deployed* |
+| NEW | 2026-07-03 | LLM-Augmented Customer LTV Forecaster | `python-scripts/analytics/` | *Deployed* |
