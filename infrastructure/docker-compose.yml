@@ -1,29 +1,41 @@
 version: '3.8'
 
 services:
-  api_gateway:
-    image: b2b-fastapi-backend:v2
-    build: 
-      context: ../python-scripts
+  fastapi_backend:
+    build: .
+    container_name: enterprise_pipeline_api
     ports:
       - "8000:8000"
+    volumes:
+      - .:/app
     environment:
-      - UVICORN_WORKERS=4
-      - LLM_PROVIDER=groq
-    depends_on:
-      - state_db
-
-  state_db:
-    image: postgres:15-alpine
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: secure_placeholder
+      - INTERNAL_API_KEY=enterprise_secret_2026
+      - SERPER_API_KEY=${SERPER_API_KEY}
+    restart: unless-stopped
+    networks:
+      - pipeline_net
 
   n8n_orchestrator:
     image: n8nio/n8n:latest
+    container_name: enterprise_n8n
     ports:
       - "5678:5678"
     environment:
-      - DB_TYPE=postgresdb
-    depends_on:
-      - state_db
+      - N8N_HOST=0.0.0.0
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - NODE_ENV=production
+      - EXECUTIONS_DATA_SAVE_ON_ERROR=all
+      - EXECUTIONS_DATA_SAVE_ON_SUCCESS=none
+    volumes:
+      - n8n_data:/home/node/.n8n
+    restart: unless-stopped
+    networks:
+      - pipeline_net
+
+networks:
+  pipeline_net:
+    driver: bridge
+
+volumes:
+  n8n_data:
