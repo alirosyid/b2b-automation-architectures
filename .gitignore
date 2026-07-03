@@ -1,6 +1,24 @@
+# Environment Variables (CRITICAL)
 .env
-.env.*
+.env.local
+
+# Database State (Prevent lead data leaks)
+*.db
+*.sqlite3
+prospect_cache.db
+
+# Python Cache & Environments
 __pycache__/
 *.py[cod]
+*$py.class
+venv/
+env/
+.venv/
+
+# n8n & Node.js
 node_modules/
+.n8n/
+
+# OS generated files
 .DS_Store
+Thumbs.db
