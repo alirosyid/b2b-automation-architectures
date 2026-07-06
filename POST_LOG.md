@@ -191,12 +191,21 @@ This documentation serves as the master ledger tracking every architectural upda
 | NEW | 2026-07-04 | Stripe to Xero Agentic Reconciler | `business-ops/` | *Deployed* |[cite: 17]
 | NEW | 2026-07-04 | Meeting Intelligence CRM Extractor | `python-scripts/integrations/` | *Deployed* |[cite: 17]
 | NEW | 2026-07-04 | Ephemeral Developer Sandbox Provisioner | `infrastructure/` | *Deployed* |[cite: 17]
-| NEW | 2026-07-05 | GraphRAG Entity Relationship Extractor | `python-scripts/data/` | *Deployed* |
-| NEW | 2026-07-05 | Agentic Penetration Testing Swarm | `python-scripts/sec/` | *Deployed* |
-| NEW | 2026-07-05 | Autonomous AI Voice Outbound Agent | `lead_enrichment_engine/` | *Deployed* |
-| NEW | 2026-07-05 | Automated SLA Breach Compensator | `business-ops/` | *Deployed* |
-| NEW | 2026-07-05 | Predictive Churn Vector Analyzer | `python-scripts/analytics/` | *Deployed* |
-| NEW | 2026-07-05 | N8N Custom Node Boilerplate Scaffolder | `core-utils/` | *Deployed* |
-| NEW | 2026-07-05 | Universal Webhook Payload Normalizer | `python-scripts/integrations/` | *Deployed* |
-| PATCH | 2026-07-05 | Autonomous FinOps Cloud Resource Reaper | `python-scripts/ops/` | *Deployed* |
-| NEW | 2026-07-05 | Stealth LinkedIn Phantom Networker | `python-scripts/scraping/` | *Deployed* |
+| NEW | 2026-07-05 | GraphRAG Entity Relationship Extractor | `python-scripts/data/` | *Deployed* |[cite: 17]
+| NEW | 2026-07-05 | Agentic Penetration Testing Swarm | `python-scripts/sec/` | *Deployed* |[cite: 17]
+| NEW | 2026-07-05 | Autonomous AI Voice Outbound Agent | `lead_enrichment_engine/` | *Deployed* |[cite: 17]
+| NEW | 2026-07-05 | Automated SLA Breach Compensator | `business-ops/` | *Deployed* |[cite: 17]
+| NEW | 2026-07-05 | Predictive Churn Vector Analyzer | `python-scripts/analytics/` | *Deployed* |[cite: 17]
+| NEW | 2026-07-05 | N8N Custom Node Boilerplate Scaffolder | `core-utils/` | *Deployed* |[cite: 17]
+| NEW | 2026-07-05 | Universal Webhook Payload Normalizer | `python-scripts/integrations/` | *Deployed* |[cite: 17]
+| PATCH | 2026-07-05 | Autonomous FinOps Cloud Resource Reaper | `python-scripts/ops/` | *Deployed* |[cite: 17]
+| NEW | 2026-07-05 | Stealth LinkedIn Phantom Networker | `python-scripts/scraping/` | *Deployed* |[cite: 17]
+| NEW | 2026-07-06 | DSPy Prompt Auto-Optimizer | `core-utils/` | *Deployed* |
+| NEW | 2026-07-06 | Autonomous Workflow Linter & Security Scanner | `n8n-workflows/` | *Deployed* |
+| NEW | 2026-07-06 | Competitor GitHub Issue Scraper | `python-scripts/scraping/` | *Deployed* |
+| NEW | 2026-07-06 | Continuous Long-Term Memory Injector | `python-scripts/core/` | *Deployed* |
+| NEW | 2026-07-06 | Automated B2B Lead Magnet PDF Generator | `business-ops/` | *Deployed* |
+| NEW | 2026-07-06 | Unstructured Data Ingestion Pipeline | `python-scripts/data/` | *Deployed* |
+| NEW | 2026-07-06 | Financial Document PII Redactor | `python-scripts/sec/` | *Deployed* |
+| NEW | 2026-07-06 | SLA-Aware Distributed Rate Limit Coordinator | `python-scripts/integrations/` | *Deployed* |
+| NEW | 2026-07-06 | Predictive Traffic Auto-Scaler for Vector DBs | `infrastructure/` | *Deployed* |
