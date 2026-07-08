@@ -218,3 +218,12 @@ This documentation serves as the master ledger tracking every architectural upda
 | PATCH | 2026-07-07 | LLM FinOps Arbitrage Router v2 | `python-scripts/analytics/` | *Deployed* |
 | NEW | 2026-07-07 | GraphRAG Knowledge Node Pruner | `python-scripts/data/` | *Deployed* |
 | NEW | 2026-07-07 | Automated SLA Renewal Negotiator | `business-ops/` | *Deployed* |
+| NEW | 2026-07-08 | OpenTelemetry B2B Pipeline Tracer | `python-scripts/ops/` | *Deployed* |
+| NEW | 2026-07-08 | Automated SOC2 Evidence Collector | `python-scripts/sec/` | *Deployed* |
+| NEW | 2026-07-08 | LLM Semantic Cache Invalidator | `async_rag_support/` | *Deployed* |
+| NEW | 2026-07-08 | Idempotency Webhook Debouncer | `infrastructure/` | *Deployed* |
+| NEW | 2026-07-08 | Automated "Build in Public" LinkedIn Agent | `business-ops/` | *Deployed* |
+| NEW | 2026-07-08 | Zero-Trust Token Scope Down-sizer | `python-scripts/sec/` | *Deployed* |
+| NEW | 2026-07-08 | Competitor Sitemap Velocity Scraper | `trend-analysis/` | *Deployed* |
+| NEW | 2026-07-08 | Agentic API Rate Limit Negotiator | `python-scripts/api/` | *Deployed* |
+| NEW | 2026-07-08 | SaaS Trial Expiration Converter Pipeline | `lead_enrichment_engine/` | *Deployed* |
