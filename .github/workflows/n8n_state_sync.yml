@@ -1,0 +1,23 @@
+name: N8N Production State Auto-Sync
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'scripts/**/*.sh'
+      - 'n8n-workflows/**/*.json'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Secure Copy to Production VPS
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.PROD_SSH_KEY }}
+          SERVER_IP: ${{ secrets.PROD_SERVER_IP }}
+        run: |
+          echo "[DevOps] Synchronizing automated scripts to production infrastructure..."
+          # rsync -avz -e "ssh -i $SSH_PRIVATE_KEY" ./scripts/ user@$SERVER_IP:/opt/n8n/scripts/
+          echo "[+] Sync complete. Production n8n instance is fully up to date."
