@@ -236,3 +236,12 @@ This documentation serves as the master ledger tracking every architectural upda
 | NEW | 2026-07-09 | Bulk Audio Normalization & LUFS Patcher | `core-utils/` | *Deployed* |
 | NEW | 2026-07-09 | Stealth Niche Trend Analyzer | `trend-analysis/` | *Deployed* |
 | NEW | 2026-07-09 | GitHub Actions N8N State Auto-Sync | `.github/workflows/` | *Deployed* |
+| NEW | 2026-07-10 | Agentic Shadow API Discovery | `python-scripts/sec/` | *Deployed* |
+| NEW | 2026-07-10 | Adaptive RAG Chunking Engine | `async_rag_support/` | *Deployed* |
+| NEW | 2026-07-10 | Multi-Agent Cloud Cost Negotiator | `python-scripts/agents/` | *Deployed* |
+| NEW | 2026-07-10 | Predictive Hiring Signal Tracker | `lead_enrichment_engine/` | *Deployed* |
+| NEW | 2026-07-10 | Zero-ETL Data Sync Hub | `python-scripts/integrations/` | *Deployed* |
+| NEW | 2026-07-10 | Dark Funnel Attribution Model | `python-scripts/analytics/` | *Deployed* |
+| NEW | 2026-07-10 | Autonomous K8s OOM Healer | `infrastructure/` | *Deployed* |
+| NEW | 2026-07-10 | LLM Prompt Leakage Canary | `python-scripts/sec/` | *Deployed* |
+| NEW | 2026-07-10 | Automated Vendor Risk Assessor | `business-ops/` | *Deployed* |
