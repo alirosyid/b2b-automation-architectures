@@ -317,3 +317,12 @@ This documentation serves as the master ledger tracking every architectural upda
 | NEW | 2026-07-18 | Headless LinkedIn Authority Networker | `python-scripts/scraping/` | *Deployed* | 
 | NEW | 2026-07-18 | Webhook Replay Attack Mitigator | `python-scripts/integrations/` | *Deployed* | 
 | NEW | 2026-07-18 | Asynchronous Polyglot Code Executor | `core-utils/` | *Deployed* |
+| NEW | 2026-07-21 | Zero-Trust API Key Rotation Middleware | `python-scripts/sec/` | *Deployed* | 
+| NEW | 2026-07-21 | Rust-Powered High-Speed JSON Parser | `core-utils/` | *Deployed* | 
+| NEW | 2026-07-21 | Asynchronous PostgreSQL Connection Pooler | `infrastructure/` | *Deployed* | 
+| NEW | 2026-07-21 | Distributed Redis Rate Limiter | `python-scripts/api/` | *Deployed* | 
+| NEW | 2026-07-21 | Multi-Modal Visual Inspection Scorer | `python-scripts/analytics/` | *Deployed* | 
+| NEW | 2026-07-21 | Automated Pydantic Schema Fuzzer | `python-scripts/tests/` | *Deployed* | 
+| NEW | 2026-07-21 | Self-Healing Playwright Proxy Rotator | `python-scripts/scraping/` | *Deployed* | 
+| NEW | 2026-07-21 | Kafka-Backed Event-Driven Orchestrator | `infrastructure/` | *Deployed* | 
+| NEW | 2026-07-21 | Asynchronous Prometheus Telemetry Exporter | `python-scripts/ops/` | *Deployed* |
