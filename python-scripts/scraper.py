@@ -26,7 +26,7 @@ RSS_FEEDS = {
 TIME_LIMIT_HOURS = 24 # Disesuaikan karena cron job berjalan 1x sehari
 
 # =====================================================================
-# SISTEM KATA KUNCI (THE SNIPER 2.0 FILTER)
+# SISTEM KATA KUNCI (THE SNIPER 3.0 FILTER)
 # =====================================================================
 PRIMARY_KEYWORDS = ['n8n', 'ai automation', 'ai agent', 'llm', 'rag', 'fastapi', 'openai', 'make.com', 'zapier', 'machine learning', 'chatgpt']
 SECONDARY_KEYWORDS = ['python', 'api integration', 'process automation', 'workflow', 'backend developer', 'data extraction']
