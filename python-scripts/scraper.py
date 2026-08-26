@@ -10,17 +10,21 @@ import html
 import re
 
 # =====================================================================
-# KONFIGURASI SUMBER RSS (HANYA BOARD DENGAN KUALITAS REMOTE GLOBAL)
+# KONFIGURASI SUMBER RSS (DIPERTAJAM UNTUK ARSITEK & BACKEND)
 # =====================================================================
 RSS_FEEDS = {
+    # TIER 1: SANGAT TERTARGET (Fokus Backend, Python, & Arsitektur)
     "WeWorkRemotely": "https://weworkremotely.com/categories/remote-back-end-programming-jobs.rss",
-    "RemoteOK": "https://remoteok.com/remote-dev-jobs.rss",
+    "RemoteOK_Backend": "https://remoteok.com/remote-backend-jobs.rss", 
+    "RemoteOK_Python": "https://remoteok.com/remote-python-jobs.rss",
+    "Upwork_Tech": "https://www.upwork.com/ab/feed/jobs/rss?q=n8n+OR+fastapi+OR+python+backend+OR+architect",
+
+    # TIER 2: BROAD DEVELOPMENT (Akan disaring ketat oleh filter Python Anda)
     "Remotive": "https://remotive.com/remote-jobs/software-dev/feed",
     "WorkingNomads": "https://www.workingnomads.com/jobs/feed/development",
     "Jobspresso": "https://jobspresso.co/remote-software-jobs/feed/",
     "Remote.co": "https://remote.co/remote-jobs/developer/feed/",
-    "Himalayas": "https://himalayas.app/jobs/rss",
-    "Upwork_Tech": "https://www.upwork.com/ab/feed/jobs/rss?q=n8n+OR+fastapi+OR+python+backend"
+    "Himalayas": "https://himalayas.app/jobs/rss"
 }
 
 TIME_LIMIT_HOURS = 24 # Disesuaikan karena cron job berjalan 1x sehari
